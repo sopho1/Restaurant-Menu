@@ -1,0 +1,180 @@
+{
+  "restaurant": {
+    "name": "LUXE DINING",
+    "tagline": "Where Culinary Art Meets Innovation"
+  },
+  "categories": [
+    {
+      "id": "starters",
+      "name": "Starters",
+      "icon": "🥗",
+      "items": [
+        {
+          "id": "truffle-arugula",
+          "name": "Truffle Arugula Salad",
+          "description": "Fresh arugula, shaved parmesan, truffle oil, and toasted pine nuts",
+          "price": 18,
+          "image": "salad",
+          "glb": "salad"
+        },
+        {
+          "id": "wagyu-tartare",
+          "name": "Wagyu Beef Tartare",
+          "description": "Premium wagyu beef, quail egg, capers, and microgreens",
+          "price": 32,
+          "image": "tartare",
+          "glb": "tartare"
+        },
+        {
+          "id": "lobster-bisque",
+          "name": "Lobster Bisque",
+          "description": "Creamy bisque with cognac, fresh herbs, and crème fraîche",
+          "price": 24,
+          "image": "bisque",
+          "glb": "bisque"
+        },
+        {
+          "id": "foie-gras",
+          "name": "Foie Gras Terrine",
+          "description": "Duck liver terrine with fig compote and brioche toast",
+          "price": 28,
+          "image": "foie",
+          "glb": "foie"
+        }
+      ]
+    },
+    {
+      "id": "mains",
+      "name": "Main Courses",
+      "icon": "🍽️",
+      "items": [
+        {
+          "id": "wagyu-steak",
+          "name": "A5 Wagyu Ribeye",
+          "description": "Premium Japanese wagyu, 8oz, served with roasted vegetables",
+          "price": 95,
+          "image": "steak",
+          "glb": "steak"
+        },
+        {
+          "id": "lobster-thermidor",
+          "name": "Lobster Thermidor",
+          "description": "Whole Maine lobster, gruyère cheese, brandy cream sauce",
+          "price": 68,
+          "image": "lobster",
+          "glb": "lobster"
+        },
+        {
+          "id": "duck-confit",
+          "name": "Duck Confit",
+          "description": "Slow-cooked duck leg, cherry reduction, roasted potatoes",
+          "price": 42,
+          "image": "duck",
+          "glb": "duck"
+        },
+        {
+          "id": "truffle-pasta",
+          "name": "Black Truffle Pasta",
+          "description": "Fresh tagliatelle, black truffle, parmesan, and butter",
+          "price": 38,
+          "image": "pasta",
+          "glb": "pasta"
+        },
+        {
+          "id": "sushi-platter",
+          "name": "Omakase Sushi Platter",
+          "description": "Chef's selection of 12 pieces, seasonal fish, premium ingredients",
+          "price": 88,
+          "image": "sushi",
+          "glb": "sushi"
+        }
+      ]
+    },
+    {
+      "id": "desserts",
+      "name": "Desserts",
+      "icon": "🍰",
+      "items": [
+        {
+          "id": "chocolate-souffle",
+          "name": "Chocolate Soufflé",
+          "description": "Warm dark chocolate soufflé with vanilla ice cream",
+          "price": 16,
+          "image": "souffle",
+          "glb": "souffle"
+        },
+        {
+          "id": "creme-brulee",
+          "name": "Vanilla Crème Brûlée",
+          "description": "Classic French dessert with caramelized sugar top",
+          "price": 14,
+          "image": "creme",
+          "glb": "creme"
+        },
+        {
+          "id": "tiramisu",
+          "name": "Artisan Tiramisu",
+          "description": "Espresso-soaked ladyfingers, mascarpone, cocoa powder",
+          "price": 15,
+          "image": "tiramisu",
+          "glb": "tiramisu"
+        },
+        {
+          "id": "berry-tart",
+          "name": "Mixed Berry Tart",
+          "description": "Seasonal berries, vanilla pastry cream, buttery crust",
+          "price": 13,
+          "image": "tart",
+          "glb": "tart"
+        }
+      ]
+    },
+    {
+      "id": "drinks",
+      "name": "Drinks",
+      "icon": "🍷",
+      "items": [
+        {
+          "id": "wine-flight",
+          "name": "Wine Flight",
+          "description": "Three 2oz pours of premium wines, curated selection",
+          "price": 28,
+          "image": "wine",
+          "glb": "wine"
+        },
+        {
+          "id": "signature-cocktail",
+          "name": "Signature Cocktail",
+          "description": "House specialty cocktail, premium spirits, house-made syrups",
+          "price": 18,
+          "image": "cocktail",
+          "glb": "cocktail"
+        },
+        {
+          "id": "whiskey-tasting",
+          "name": "Premium Whiskey Tasting",
+          "description": "Three 1oz pours of rare whiskeys, tasting notes included",
+          "price": 45,
+          "image": "whiskey",
+          "glb": "whiskey"
+        },
+        {
+          "id": "champagne",
+          "name": "Dom Pérignon",
+          "description": "Vintage champagne, served chilled",
+          "price": 350,
+          "image": "champagne",
+          "glb": "champagne"
+        },
+        {
+          "id": "mocktail",
+          "name": "Artisan Mocktail",
+          "description": "Premium non-alcoholic beverage, house-made ingredients",
+          "price": 12,
+          "image": "mocktail",
+          "glb": "mocktail"
+        }
+      ]
+    }
+  ]
+}
