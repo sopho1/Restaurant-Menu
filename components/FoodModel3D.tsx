@@ -11,7 +11,6 @@ interface FoodModel3DProps {
   itemName: string;
 }
 
-// Placeholder 3D model component - using a geometric shape with distortion
 function FoodShape({ itemId }: { itemId: string }) {
   const geometry = itemId.includes("burger") || itemId.includes("steak")
     ? new THREE.BoxGeometry(2, 1.5, 2)
@@ -19,19 +18,19 @@ function FoodShape({ itemId }: { itemId: string }) {
     ? new THREE.CylinderGeometry(1, 1.2, 1.5, 32)
     : new THREE.SphereGeometry(1.2, 32, 32);
 
+  const color = getColorForItem(itemId);
+
   return (
     <mesh geometry={geometry} rotation={[0.5, 0.5, 0]}>
       <MeshDistortMaterial
-        color={getColorForItem(itemId)}
+        color={color}
         attach="material"
-        distort={0.3}
-        speed={2}
-        roughness={0.5}
-        metalness={0.3}
+        distort={0.15}
+        speed={1.2}
+        roughness={0.35}
+        metalness={0.08}
+        envMapIntensity={1.2}
       />
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[5, 5, 5]} intensity={1} />
-      <pointLight position={[-5, -5, -5]} intensity={0.5} />
     </mesh>
   );
 }
@@ -53,24 +52,63 @@ export default function FoodModel3D({ itemId, itemName }: FoodModel3DProps) {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-full h-full"
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="w-full h-full relative"
     >
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+      <Canvas
+        camera={{
+          position: [0, 0, 5.2],
+          fov: 42,
+          near: 0.1,
+          far: 100,
+        }}
+        dpr={[1, 2]}
+        gl={{ antialias: true, alpha: false }}
+      >
+        <color attach="background" args={["#050505"]} />
         <Suspense fallback={null}>
-          <ambientLight intensity={0.6} />
-          <directionalLight position={[10, 10, 5]} intensity={1} />
-          <pointLight position={[-10, -10, -5]} intensity={0.5} />
+          {/* Cinematic three-point lighting */}
+          <ambientLight intensity={0.25} />
+          <directionalLight
+            position={[4, 6, 5]}
+            intensity={1.4}
+            castShadow
+            shadow-mapSize={[1024, 1024]}
+            shadow-bias={-0.0001}
+          />
+          <directionalLight position={[-3, 2, 3]} intensity={0.35} />
+          <pointLight position={[0, -2, 2]} intensity={0.4} color="#fff5e6" />
+          <pointLight position={[-2, 4, -2]} intensity={0.2} color="#d4af37" />
+          <spotLight
+            position={[0, 8, 2]}
+            angle={0.4}
+            penumbra={0.6}
+            intensity={0.5}
+            color="#ffffff"
+          />
+
           <FoodShape itemId={itemId} />
+
           <OrbitControls
             enableZoom={false}
+            enablePan={false}
             autoRotate
-            autoRotateSpeed={1}
-            minPolarAngle={Math.PI / 3}
-            maxPolarAngle={Math.PI / 1.5}
+            autoRotateSpeed={0.6}
+            minPolarAngle={Math.PI / 3.2}
+            maxPolarAngle={Math.PI / 1.6}
+            enableDamping
+            dampingFactor={0.05}
+            rotateSpeed={0.4}
           />
-          <Environment preset="sunset" />
+
+          <Environment preset="studio" />
         </Suspense>
       </Canvas>
+      {/* Subtle gradient overlay for depth */}
+      <div
+        className="pointer-events-none absolute inset-0 gradient-veil-hero opacity-75"
+        aria-hidden
+      />
     </motion.div>
   );
 }

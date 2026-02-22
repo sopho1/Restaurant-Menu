@@ -1,17 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ededed;
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glow-color: rgba(255, 255, 255, 0.1);
+  --background: #050505;
+  --foreground: #f5f5f0;
+  --foreground-muted: #a8a8a0;
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-bg-strong: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.15);
+  --glow-color: rgba(212, 175, 55, 0.15);
+  --glow-strong: rgba(212, 175, 55, 0.25);
+  --accent-gold: #d4af37;
+  --accent-gold-soft: #e8c547;
+  --accent-warm: #c9a227;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-slow: 0.6s;
+  --duration-medium: 0.4s;
+  --duration-fast: 0.2s;
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --spacing-section: clamp(5rem, 12vw, 8rem);
+  --spacing-block: clamp(1.5rem, 4vw, 2.5rem);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
+  --font-serif: var(--font-playfair);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -30,19 +49,75 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Glassmorphism utility */
+/* Premium typography scale */
+.text-display {
+  font-family: var(--font-playfair), Georgia, serif;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.text-heading {
+  font-family: var(--font-playfair), Georgia, serif;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+/* Glassmorphism – refined */
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
   border: 1px solid var(--glass-border);
+  transition: background var(--duration-medium) var(--ease-out-expo),
+    border-color var(--duration-medium) var(--ease-out-expo),
+    box-shadow var(--duration-medium) var(--ease-out-expo);
 }
 
-/* Glow effect */
+.glass:hover {
+  background: var(--glass-bg-strong);
+  border-color: var(--glass-border-hover);
+}
+
+/* Glow – cinematic */
 .glow {
-  box-shadow: 0 0 20px var(--glow-color);
+  box-shadow: 0 0 30px var(--glow-color), 0 0 60px rgba(0, 0, 0, 0.3);
+}
+
+.glow-lg,
+.hover\:glow-lg:hover {
+  box-shadow: 0 0 40px var(--glow-strong), 0 0 80px rgba(212, 175, 55, 0.1);
+}
+
+/* Subtle gradient overlays for depth */
+.gradient-veil {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(5, 5, 5, 0.4) 50%,
+    rgba(5, 5, 5, 0.85) 100%
+  );
+}
+
+.gradient-veil-hero {
+  background: radial-gradient(
+      ellipse 80% 50% at 50% 20%,
+      rgba(212, 175, 55, 0.06) 0%,
+      transparent 50%
+    ),
+    linear-gradient(180deg, transparent 0%, rgba(5, 5, 5, 0.6) 70%, rgba(5, 5, 5, 0.95) 100%);
+}
+
+/* Gold gradient text */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #f5e6c8 0%, var(--accent-gold) 35%, var(--accent-warm) 70%, #a68b4a 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Hide scrollbar but keep functionality */
@@ -53,4 +128,23 @@ body {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* Optional: minimal premium scrollbar when visible */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
