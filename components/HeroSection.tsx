@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Easing } from "framer-motion";
 import { useEffect, useState } from "react";
 import FoodImage from "./FoodImage";
 import menuData from "@/data/menu.json";
@@ -22,7 +22,7 @@ function getHeroItem(id: string) {
   return menuData.categories[1]?.items[0] ?? { id: "wagyu-steak", name: "Dish", image: "steak" };
 }
 
-const easeOutExpo = [0.16, 1, 0.3, 1];
+const easeOutExpo: Easing = [0.16, 1, 0.3, 1];
 
 export default function HeroSection({
   restaurantName,

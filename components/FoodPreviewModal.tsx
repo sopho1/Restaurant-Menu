@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { MenuItem } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
 import FoodImage from "./FoodImage";
@@ -12,25 +12,25 @@ interface FoodPreviewModalProps {
   onClose: () => void;
 }
 
-const backdrop = {
+const backdrop: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
   exit: { opacity: 0 },
 };
 
-const panel = {
+const panel: Variants = {
   hidden: { opacity: 0, scale: 0.96, y: 24 },
   visible: {
     opacity: 1,
     scale: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
   },
   exit: {
     opacity: 0,
     scale: 0.96,
     y: 24,
-    transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
   },
 };
 
