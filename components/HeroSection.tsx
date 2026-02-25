@@ -2,8 +2,7 @@
 
 import { motion, AnimatePresence, type Easing } from "framer-motion";
 import { useEffect, useState } from "react";
-import FoodImage from "./FoodImage";
-import menuData from "@/data/menu.json";
+import Image from "next/image";
 
 interface HeroSectionProps {
   restaurantName: string;
@@ -11,16 +10,12 @@ interface HeroSectionProps {
   onScrollDown: () => void;
 }
 
-// Use real menu items for hero rotation (mains)
-const heroItemIds = ["wagyu-steak", "truffle-pasta", "sushi-platter"] as const;
-
-function getHeroItem(id: string) {
-  for (const cat of menuData.categories) {
-    const item = cat.items.find((i) => i.id === id);
-    if (item) return item;
-  }
-  return menuData.categories[1]?.items[0] ?? { id: "wagyu-steak", name: "Dish", image: "steak" };
-}
+const heroImages = [
+  "/burg.jpg",
+  "/burg1.jpg",
+  "/burg2.jpg",
+  "/burg3.jpg",
+];
 
 const easeOutExpo: Easing = [0.16, 1, 0.3, 1];
 
@@ -30,8 +25,7 @@ export default function HeroSection({
   onScrollDown,
 }: HeroSectionProps) {
   const [index, setIndex] = useState(0);
-  const itemId = heroItemIds[index % heroItemIds.length];
-  const heroItem = getHeroItem(itemId);
+  const imageSrc = heroImages[index % heroImages.length];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -42,43 +36,51 @@ export default function HeroSection({
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      
+      {/* Background Images */}
       <div className="absolute inset-0 z-0">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
-            key={itemId}
+            key={imageSrc}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.2, ease: easeOutExpo }}
             className="absolute inset-0"
           >
-            <FoodImage
-              item={heroItem}
+            <Image
+              src={imageSrc}
+              alt="Luxury dish background"
               fill
               priority
               sizes="100vw"
-              className="absolute inset-0"
+              className="object-cover"
             />
           </motion.div>
         </AnimatePresence>
-        <div className="absolute inset-0 bg-black/50 gradient-veil-hero opacity-80" aria-hidden />
+
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+      {/* Hero Content */}
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto gap-8">
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: easeOutExpo }}
-          className="text-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-8 tracking-tight"
+          className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-8 tracking-tight"
         >
-          <span className="text-gradient-gold">{restaurantName}</span>
+          <span className="bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
+            {restaurantName}
+          </span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.15, ease: easeOutExpo }}
-          className="text-heading text-xl sm:text-2xl md:text-3xl text-[var(--foreground-muted)] font-light tracking-wide mb-16 max-w-2xl mx-auto leading-relaxed"
+          className="text-xl sm:text-2xl md:text-3xl text-white/80 font-light tracking-wide mb-16 max-w-2xl mx-auto leading-relaxed"
         >
           {tagline}
         </motion.p>
@@ -87,15 +89,16 @@ export default function HeroSection({
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3, ease: easeOutExpo }}
-          whileHover={{ scale: 1.03, boxShadow: "0 0 40px rgba(212, 175, 55, 0.25)" }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
           onClick={onScrollDown}
-          className="glass rounded-full px-10 py-4 text-lg font-medium text-white border-[var(--glass-border-hover)] hover:border-[var(--accent-gold)]/30 transition-colors duration-300"
+          className="rounded-lg cursor-pointer px-15 py-14 text-lg font-medium text-white border border-white/30 hover:border-yellow-400/40 transition-all duration-300 backdrop-blur-md bg-white/5"
         >
           View Menu
         </motion.button>
       </div>
 
+      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -105,7 +108,7 @@ export default function HeroSection({
         <motion.button
           onClick={onScrollDown}
           aria-label="Scroll to menu"
-          className="flex flex-col items-center gap-2 text-white/60 hover:text-white/90 transition-colors duration-300"
+          className="flex flex-col items-center gap-2 text-white/60 hover:text-white transition-colors duration-300"
         >
           <motion.div
             animate={{ y: [0, 8, 0] }}
@@ -118,7 +121,9 @@ export default function HeroSection({
               className="w-1 h-2.5 bg-current rounded-full"
             />
           </motion.div>
-          <span className="text-xs font-medium tracking-widest uppercase">Scroll</span>
+          <span className="text-xs font-medium tracking-widest uppercase">
+            Scroll
+          </span>
         </motion.button>
       </motion.div>
     </section>

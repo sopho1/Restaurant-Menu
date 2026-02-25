@@ -33,7 +33,7 @@ export default function Home() {
         tagline={menuData.restaurant.tagline}
         onScrollDown={handleScrollDown}
       />
-
+    <div className="flex flex-col gap-40">
       {menuData.categories.map((category) => (
         <MenuCategory
           key={category.id}
@@ -41,7 +41,7 @@ export default function Home() {
           onItemClick={handleItemClick}
         />
       ))}
-
+      </div>
       <FoodPreviewModal
         item={selectedItem}
         isOpen={isModalOpen}
@@ -51,10 +51,15 @@ export default function Home() {
         }}
       />
 
-      <footer className="py-16 px-6 text-center text-[var(--foreground-muted)]">
-        <p className="text-sm tracking-wide">
-          © {new Date().getFullYear()} {menuData.restaurant.name}. All rights reserved.
-        </p>
+      <footer className="pt-32 md:pt-40 lg:pt-56 pb-20 flex items-center justify-center border border-yellow-500">
+        <div className="max-w-8xl max-h-5xl glass rounded-3xl border border-white/10 bg-gradient-to-t from-white/5 to-transparent text-center">
+          <p className="text-xs uppercase tracking-[0.35em] text-gray-500 mb-3">
+            Digital Menu Experience
+          </p>
+          <p className="text-sm tracking-wide text-gray-400">
+            © {new Date().getFullYear()} {menuData.restaurant.name}. All rights reserved.
+          </p>
+        </div>
       </footer>
     </main>
   );
