@@ -13,11 +13,13 @@ export default function QRGeneratorPage() {
   const [loading, setLoading] = useState(false);
 
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showQRModal, setShowQRModal] = useState(false);
+
   const [passwordInput, setPasswordInput] = useState("");
   const [authError, setAuthError] = useState("");
 
-  const BASE_DOMAIN = "https://yourdomain.com"; // 🔒 replace
-  const LOGO_URL = "/favicon.ico"; // 🔥 place logo inside /public
+  const BASE_DOMAIN = "https://restaurant-menu-rho-mocha.vercel.app/";
+  const LOGO_URL = "/favicon.ico";
 
   const handleGenerateClick = () => {
     setShowPasswordModal(true);
@@ -34,7 +36,6 @@ export default function QRGeneratorPage() {
     setShowPasswordModal(false);
     setAuthError("");
     setPasswordInput("");
-
     await generateQR();
   };
 
@@ -52,7 +53,7 @@ export default function QRGeneratorPage() {
       }
 
       const dataUrl = await QRCode.toDataURL(targetUrl, {
-        width: 600,
+        width: 700,
         margin: 2,
         color: {
           dark: "#111827",
@@ -61,8 +62,7 @@ export default function QRGeneratorPage() {
       });
 
       setQrDataUrl(dataUrl);
-    } catch (err) {
-      console.error("QR generation error:", err);
+      setShowQRModal(true);
     } finally {
       setLoading(false);
     }
@@ -82,141 +82,90 @@ export default function QRGeneratorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 flex items-center justify-center px-6 py-20">
 
-      <div className="w-full max-w-4xl text-center">
+      <div className="w-full max-w-4xl text-center space-y-20">
 
         {/* HEADER */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-12 text-white"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+        <div className="space-y-8 text-white">
+          <h1 className="text-5xl font-bold">
             QR Menu Generator
           </h1>
-          <p className="text-white/80 max-w-xl mx-auto">
-            Generate a secure branded QR code for your restaurant.
+          <p className="text-white/80 max-w-xl mx-auto text-lg">
+            Generate secure branded QR codes for your restaurant.
           </p>
-        </motion.div>
+        </div>
 
         {/* MAIN CARD */}
-        <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-10 shadow-2xl border border-white/20 text-white">
+        <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-16 shadow-2xl border border-white/20 text-white space-y-16">
 
           {/* MENU TYPE */}
-          <div className="flex justify-center gap-6 mb-10">
-            <button
-              onClick={() => setMenuType("normal")}
-              className={`px-8 py-4 rounded-xl font-semibold transition ${
-                menuType === "normal"
-                  ? "bg-white text-purple-700 shadow-lg"
-                  : "bg-white/20 hover:bg-white/30"
-              }`}
-            >
-              Normal Menu
-            </button>
+          <div className="space-y-10">
+            <h2 className="text-xl font-semibold text-white/80">
+              Select Menu Type
+            </h2>
 
-            <button
-              onClick={() => setMenuType("special")}
-              className={`px-8 py-4 rounded-xl font-semibold transition ${
-                menuType === "special"
-                  ? "bg-white text-purple-700 shadow-lg"
-                  : "bg-white/20 hover:bg-white/30"
-              }`}
-            >
-              Special Menu
-            </button>
+            <div className="flex justify-center gap-12">
+              <button
+                onClick={() => setMenuType("normal")}
+                className={`px-12 py-5 rounded font-semibold transition cursor-pointer ${
+                  menuType === "normal"
+                    ? "bg-white text-purple-700 shadow-xl"
+                    : "bg-white/20 hover:bg-white/30"
+                }`}
+              >
+                Normal Menu
+              </button>
+
+              <button
+                onClick={() => setMenuType("special")}
+                className={`px-22 py-5 rounded font-semibold transition cursor-pointer ${
+                  menuType === "special"
+                    ? "bg-white text-purple-700 shadow-xl"
+                    : "bg-white/20 hover:bg-white/30"
+                }`}
+              >
+                Special Menu
+              </button>
+            </div>
           </div>
 
-          {/* TABLE NUMBER */}
-          <div className="max-w-md mx-auto mb-8">
+          {/* TABLE INPUT — clearly separated */}
+          <div className="space-y-6 max-w-md mx-auto">
+            <label className="block text-base text-white/70">
+              Optional Table Number
+            </label>
+
             <input
               type="text"
               value={tableNumber}
               onChange={(e) => setTableNumber(e.target.value)}
-              placeholder="Optional Table Number (e.g. 12)"
-              className="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/60 text-center"
+              placeholder="e.g. 12"
+              className="w-full px-6 py-5 rounded-2xl bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/60 text-center text-lg"
             />
           </div>
 
           {/* GENERATE BUTTON */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleGenerateClick}
-            disabled={loading}
-            className="bg-white text-purple-700 font-semibold px-10 py-4 rounded-xl shadow-lg hover:shadow-2xl transition disabled:opacity-50"
-          >
-            {loading ? "Generating..." : "Generate QR Code"}
-          </motion.button>
-
-          {/* QR PREVIEW */}
-          {qrDataUrl && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="mt-12 space-y-6"
+          <div className="pt-16">
+            <motion.button
+              whileHover={{ scale: 1.06 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleGenerateClick}
+              disabled={loading}
+              className="bg-white text-purple-700 font-semibold px-16 py-5 rounded cursor-pointer shadow-xl hover:shadow-2xl transition disabled:opacity-50 text-lg"
             >
-              <div className="relative inline-block">
-                <img
-                  src={qrDataUrl}
-                  alt="QR Code"
-                  className="w-80 h-80 rounded-2xl"
-                />
-
-                {/* LOGO EMBEDDED */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="bg-white p-3 rounded-xl shadow-lg">
-                    <img
-                      src={LOGO_URL}
-                      alt="Logo"
-                      className="w-16 h-16 object-contain"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <p className="text-white font-medium">
-                  {menuType === "normal"
-                    ? "Normal Menu"
-                    : "Special Menu"}
-                </p>
-
-                {tableNumber.trim() && (
-                  <p className="text-white/80 mt-1">
-                    Table {tableNumber.trim()}
-                  </p>
-                )}
-              </div>
-
-              <button
-                onClick={downloadQR}
-                className="bg-purple-800 text-white px-8 py-3 rounded-xl font-semibold shadow-lg hover:bg-purple-900 transition"
-              >
-                Download QR Code
-              </button>
-            </motion.div>
-          )}
+              {loading ? "Generating..." : "Generate QR Code"}
+            </motion.button>
+          </div>
         </div>
       </div>
 
       {/* PASSWORD MODAL */}
       <AnimatePresence>
         {showPasswordModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
-          >
-            <motion.div
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              className="bg-white rounded-2xl p-8 w-96 text-center shadow-2xl"
-            >
-              <h2 className="text-xl font-semibold mb-4">
+          <Modal>
+            <div className="space-y-6 gap-8 flex flex-col items-center justify-center">
+              <h2 className="text-purple-700 text-center text-xl font-semibold">
                 Admin Password Required
               </h2>
 
@@ -224,26 +173,105 @@ export default function QRGeneratorPage() {
                 type="password"
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
-                className="w-full px-4 py-3 border rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                className="w-full px-4 py-8 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600 text-center text-lg text-gray-800"
                 placeholder="Enter password"
               />
 
               {authError && (
-                <p className="text-red-500 text-sm mb-3">
+                <p className="text-red-500 text-sm">
                   {authError}
                 </p>
               )}
 
               <button
                 onClick={verifyPasswordAndGenerate}
-                className="bg-purple-600 text-white px-6 py-3 rounded-xl font-semibold w-full hover:bg-purple-700 transition"
+                className="bg-purple-600 text-white px-6 py-3 rounded-xl font-semibold w-[50%] mx-auto cursor-pointer hover:bg-purple-700 transition"
               >
                 Verify & Generate
               </button>
-            </motion.div>
-          </motion.div>
+            </div>
+          </Modal>
+        )}
+      </AnimatePresence>
+
+      {/* QR MODAL */}
+      <AnimatePresence>
+        {showQRModal && qrDataUrl && (
+          <Modal onClose={() => setShowQRModal(false)}>
+            <div className="text-center space-y-8">
+
+              <div className="relative inline-block">
+                <img
+                  src={qrDataUrl}
+                  alt="QR Code"
+                  className="w-96 h-96 rounded-2xl"
+                />
+
+                {/* LOGO */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="bg-white p-4 rounded-xl shadow-lg">
+                    <img
+                      src={LOGO_URL}
+                      alt="Logo"
+                      className="w-20 h-20 object-contain"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-lg font-semibold text-gray-800">
+                  {menuType === "normal"
+                    ? "Normal Menu"
+                    : "Special Menu"}
+                </p>
+
+                {tableNumber.trim() && (
+                  <p className="text-gray-500">
+                    Table {tableNumber.trim()}
+                  </p>
+                )}
+              </div>
+
+              <button
+                onClick={downloadQR}
+                className="bg-purple-600 text-white px-10 py-3 rounded-xl font-semibold hover:bg-purple-700 transition"
+              >
+                Download QR Code
+              </button>
+            </div>
+          </Modal>
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+/* Reusable Modal Component */
+function Modal({
+  children,
+  onClose,
+}: {
+  children: React.ReactNode;
+  onClose?: () => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-6"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0.9 }}
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-3xl p-12 shadow-2xl max-w-lg w-full"
+      >
+        {children}
+      </motion.div>
+    </motion.div>
   );
 }
