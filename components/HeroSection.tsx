@@ -64,7 +64,25 @@ export default function HeroSection({
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto gap-8">
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto gap-8 flex flex-col items-center">
+        {/* Logo */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: easeOutExpo }}
+          className="mb-6"
+        >
+          <div className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full overflow-hidden border border-white/20 bg-white/5 backdrop-blur-xl shadow-[0_0_40px_rgba(0,0,0,0.6)]">
+            <Image
+              src="/logo.jpg"
+              alt={`${restaurantName} logo`}
+              fill
+              sizes="144px"
+              className="object-cover"
+              priority
+            />
+          </div>
+        </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -80,7 +98,7 @@ export default function HeroSection({
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.15, ease: easeOutExpo }}
-          className="text-xl sm:text-2xl md:text-3xl text-white/80 font-light tracking-wide mb-16 max-w-2xl mx-auto leading-relaxed"
+          className="text-xl sm:text-2xl md:text-3xl text-white/80 font-light tracking-wide mb-16  text-center justify-center items-center flex flex-col"
         >
           {tagline}
         </motion.p>

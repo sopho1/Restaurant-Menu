@@ -1,6 +1,6 @@
 {
   "restaurant": {
-    "name": "LUXE DINING",
+    "name": "Anna Galleria Restaurant & Lounge",
     "tagline": "Where Culinary Art Meets Innovation"
   },
   "categories": [
@@ -10,34 +10,34 @@
       "icon": "🥗",
       "items": [
         {
-          "id": "truffle-arugula",
-          "name": "Truffle Arugula Salad",
-          "description": "Fresh arugula, shaved parmesan, truffle oil, and toasted pine nuts",
-          "price": 18,
+          "id": "lasagna",
+          "name": "lasagna",
+          "description":"Traditional Italian lasagna with layers of pasta, meat, and cheese",
+          "price": 1200,
           "image": "salad",
           "glb": "salad"
         },
         {
-          "id": "wagyu-tartare",
-          "name": "Wagyu Beef Tartare",
-          "description": "Premium wagyu beef, quail egg, capers, and microgreens",
-          "price": 32,
+          "id": "Tempura roll",
+          "name": "Tempura roll",
+          "description": "Tempura shrimp and avocado roll with cucumber and avocado",
+          "price": 800,
           "image": "tartare",
           "glb": "tartare"
         },
         {
-          "id": "lobster-bisque",
-          "name": "Lobster Bisque",
-          "description": "Creamy bisque with cognac, fresh herbs, and crème fraîche",
-          "price": 24,
+          "id": "Pasta combo",
+          "name": "Pasta combo",
+          "description": "Pasta with meat and vegetables",
+          "price": 900,
           "image": "bisque",
           "glb": "bisque"
         },
         {
-          "id": "foie-gras",
-          "name": "Foie Gras Terrine",
-          "description": "Duck liver terrine with fig compote and brioche toast",
-          "price": 28,
+          "id": "Orange Chicken",
+          "name": "Orange Chicken",
+          "description": "Orange chicken with vegetables and rice",
+          "price": 2800,
           "image": "foie",
           "glb": "foie"
         }
@@ -49,42 +49,42 @@
       "icon": "🍽️",
       "items": [
         {
-          "id": "wagyu-steak",
-          "name": "A5 Wagyu Ribeye",
-          "description": "Premium Japanese wagyu, 8oz, served with roasted vegetables",
-          "price": 95,
+          "id": "Fasting Combo",
+          "name": "Fasting Combo",
+          "description": "Fasting combo with soup, salad, and main course",
+          "price": 950,
           "image": "steak",
           "glb": "steak"
         },
         {
-          "id": "lobster-thermidor",
-          "name": "Lobster Thermidor",
-          "description": "Whole Maine lobster, gruyère cheese, brandy cream sauce",
-          "price": 68,
+          "id": "BBQ Chicken Wings",
+          "name": "BBQ Chicken Wings",
+          "description": "BBQ chicken wings with fries",
+          "price": 680,
           "image": "lobster",
           "glb": "lobster"
         },
         {
-          "id": "duck-confit",
-          "name": "Duck Confit",
-          "description": "Slow-cooked duck leg, cherry reduction, roasted potatoes",
-          "price": 42,
+          "id": "Special Pizza",
+          "name": "Special Pizza",
+          "description": "Special pizza with cheese and toppings",
+          "price": 420,
           "image": "duck",
           "glb": "duck"
         },
         {
-          "id": "truffle-pasta",
-          "name": "Black Truffle Pasta",
-          "description": "Fresh tagliatelle, black truffle, parmesan, and butter",
-          "price": 38,
+          "id": "Special Burger",
+          "name": "Special Burger",
+          "description": "Special burger with cheese and toppings",
+          "price": 660,
           "image": "pasta",
           "glb": "pasta"
         },
         {
-          "id": "sushi-platter",
-          "name": "Omakase Sushi Platter",
-          "description": "Chef's selection of 12 pieces, seasonal fish, premium ingredients",
-          "price": 88,
+          "id": "Fish and Chips",
+          "name": "Fish and Chips",
+          "description": "Fish and chips with fries",
+          "price": 650,
           "image": "sushi",
           "glb": "sushi"
         }
@@ -135,10 +135,10 @@
       "icon": "🍷",
       "items": [
         {
-          "id": "wine-flight",
-          "name": "Wine Flight",
-          "description": "Three 2oz pours of premium wines, curated selection",
-          "price": 28,
+          "id": "Mojito",
+          "name": "Mojito",
+          "description": "Mint, lime, sugar, rum, and soda water",
+          "price": 400,
           "image": "wine",
           "glb": "wine"
         },

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import QRCode from "qrcode";
 
 type MenuType = "normal" | "special";
@@ -110,13 +111,27 @@ export default function QRGeneratorPage() {
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-5xl text-center space-y-12">
         {/* HEADER */}
-        <div className="space-y-4 text-white">
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
-            QR Menu Generator
-          </h1>
-          <p className="text-white/80 max-w-2xl mx-auto text-lg md:text-xl">
-            Generate secure branded QR codes for your restaurant.
-          </p>
+        <div className="space-y-6 text-white flex flex-col items-center">
+          {/* Logo */}
+          <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full overflow-hidden border border-white/30 bg-white/10 backdrop-blur-xl shadow-[0_0_40px_rgba(0,0,0,0.4)]">
+            <Image
+              src="/logo.jpg"
+              alt="Restaurant logo"
+              fill
+              sizes="112px"
+              className="object-cover"
+              priority
+            />
+          </div>
+
+          <div className="space-y-4">
+            <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
+              QR Menu Generator
+            </h1>
+            <p className="text-white/80 max-w-2xl mx-auto text-lg md:text-xl">
+              Generate secure branded QR codes for your restaurant.
+            </p>
+          </div>
         </div>
 
         {/* MAIN CARD */}
@@ -294,7 +309,7 @@ export default function QRGeneratorPage() {
 
               <button
                 onClick={downloadQR}
-                className="w-full bg-purple-600 text-white px-8 py-5 rounded-xl font-bold text-lg hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
+                className="w-full bg-purple-600 text-white cursor-pointer px-8 py-5 rounded-xl font-bold text-lg hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />

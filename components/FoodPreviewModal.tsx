@@ -17,27 +17,30 @@ interface FoodPreviewModalProps {
 /* -------------------------------- */
 
 const imageMap: Record<string, string> = {
-  "truffle-arugula": "burg.jpg",
-  "wagyu-tartare": "burg1.jpg",
-  "lobster-bisque": "burg2.jpg",
-  "foie-gras": "burg3.jpg",
+  "lasagna": "burg.jpg",
+  "Tempura roll": "burg1.jpg",
+  "Pasta combo": "burg2.jpg",
+  "Orange Chicken": "burg3.jpg",
 
-  "wagyu-steak": "burg4.jpg",
-  "lobster-thermidor": "burg1.jpg",
-  "duck-confit": "burg2.jpg",
-  "truffle-pasta": "burg3.jpg",
-  "sushi-platter": "burg4.jpg",
+  // Mains
+  "Fasting Combo": "burg4.jpg",
+  "BBQ Chicken Wings": "burg5.jpg",
+  "Special Pizza": "burg.jpg",
+  "Special Burger": "burg1.jpg",
+  "Fish and Chips": "burg2.jpg",
 
-  "chocolate-souffle": "burg1.jpg",
-  "creme-brulee": "burg2.jpg",
-  "tiramisu": "burg3.jpg",
-  "berry-tart": "burg4.jpg",
+  // Desserts
+  "Chocolate Soufflé": "burg3.jpg",
+  "Vanilla Crème Brûlée": "burg4.jpg",
+  "Artisan Tiramisu": "burg5.jpg",
+  "Mixed Berry Tart": "burg.jpg",
 
-  "wine-flight": "burg1.jpg",
-  "signature-cocktail": "burg2.jpg",
-  "whiskey-tasting": "burg3.jpg",
-  "champagne": "burg4.jpg",
-  "mocktail": "burg1.jpg",
+  // Drinks
+  "Wine Flight": "burg1.jpg",
+  "Signature Cocktail": "burg2.jpg",
+  "Premium Whiskey Tasting": "burg3.jpg",
+  "Dom Pérignon": "burg4.jpg",
+  "Artisan Mocktail": "burg5.jpg",
 };
 
 const backdrop: Variants = {
