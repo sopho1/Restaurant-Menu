@@ -41,7 +41,7 @@ export default function MenuCategory({
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2 }}
             style={{ transformOrigin: "center" }}
-            className="w-24 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent"
+            className="w-24 h-px bg-linear-to-r from-transparent via-white/25 to-transparent"
           />
         </div>
 

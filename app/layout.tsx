@@ -20,7 +20,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "LUXE DINING - Digital Menu",
+  title: "Anna Galleria - Digital Menu",
   description: "Premium restaurant digital menu experience",
   viewport: "width=device-width, initial-scale=1, maximum-scale=1",
 };
