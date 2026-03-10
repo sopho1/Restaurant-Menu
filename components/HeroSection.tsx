@@ -36,7 +36,7 @@ export default function HeroSection({
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      
+
       {/* Background Images */}
       <div className="absolute inset-0 z-0">
         <AnimatePresence mode="wait" initial={false}>
@@ -87,9 +87,9 @@ export default function HeroSection({
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: easeOutExpo }}
-          className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-8 tracking-tight"
+          className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-light text-white mb-6 tracking-tighter"
         >
-          <span className="bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 bg-clip-text text-transparent">
             {restaurantName}
           </span>
         </motion.h1>
@@ -110,7 +110,7 @@ export default function HeroSection({
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
           onClick={onScrollDown}
-          className="rounded-lg cursor-pointer px-15 py-14 text-lg font-medium text-white border border-white/30 hover:border-yellow-400/40 transition-all duration-300 backdrop-blur-md bg-white/5"
+          className="rounded-full cursor-pointer px-10 py-5 md:px-14 md:py-6 text-sm md:text-base tracking-[0.2em] uppercase font-medium text-white border border-white/20 hover:border-yellow-500 hover:bg-yellow-500 hover:text-black transition-all duration-500 backdrop-blur-md bg-white/5 shadow-[0_0_40px_rgba(255,255,255,0.05)] hover:shadow-[0_0_60px_rgba(234,179,8,0.3)]"
         >
           View Menu
         </motion.button>

@@ -21,17 +21,19 @@ export default function MenuCategory({
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-6xl flex flex-col items-center text-center"
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-7xl flex flex-col items-center text-center"
       >
         {/* Category Header */}
-        <div className="flex flex-col items-center gap-4 mb-20">
-          <span className="text-4xl md:text-5xl opacity-90">
-            {category.icon}
-          </span>
+        <div className="flex flex-col items-center gap-6 mb-24 md:mb-32">
+          <div className="p-4 rounded-full bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+            <span className="text-4xl md:text-5xl opacity-90 block">
+              {category.icon}
+            </span>
+          </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light text-white tracking-tighter mt-4">
             {category.name}
           </h2>
 
@@ -46,7 +48,7 @@ export default function MenuCategory({
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-14 w-full max-w-5xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 w-full">
           {category.items.map((item, index) => (
             <MenuItemCard
               key={item.id}
