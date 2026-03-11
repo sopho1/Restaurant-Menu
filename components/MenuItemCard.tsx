@@ -84,7 +84,7 @@ export default function MenuItemCard({
 
           <div className="pt-6 mt-4 border-t border-white/10 flex justify-center items-center">
             <p className="text-xl md:text-2xl text-yellow-500 tracking-[0.2em] font-light">
-              ${item.price.toFixed(2)}
+              ETB {item.price.toFixed(2)}
             </p>
           </div>
         </div>
