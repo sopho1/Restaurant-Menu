@@ -1,94 +1,111 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
-import { MenuItem } from "@/lib/types";
+import { motion } from "framer-motion";
+import { Flame, Star } from "lucide-react";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
-interface MenuItemCardProps {
-  item: MenuItem;
-  index: number;
-  onClick: () => void;
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }
 
-// Map dish names from menu.json to local /burg images
-const imageMap: Record<string, string> = {
-  // Starters
-  "lasagna": "burg.jpg",
-  "Tempura roll": "burg1.jpg",
-  "Pasta combo": "burg2.jpg",
-  "Orange Chicken": "burg3.jpg",
-
-  // Mains
-  "Fasting Combo": "burg4.jpg",
-  "BBQ Chicken Wings": "burg5.jpg",
-  "Special Pizza": "burg.jpg",
-  "Special Burger": "burg1.jpg",
-  "Fish and Chips": "burg2.jpg",
-
-  // Desserts
-  "Chocolate Soufflé": "burg3.jpg",
-  "Vanilla Crème Brûlée": "burg4.jpg",
-  "Artisan Tiramisu": "burg5.jpg",
-  "Mixed Berry Tart": "burg.jpg",
-
-  // Drinks
-  "Wine Flight": "burg1.jpg",
-  "Signature Cocktail": "burg2.jpg",
-  "Premium Whiskey Tasting": "burg3.jpg",
-  "Dom Pérignon": "burg4.jpg",
-  "Artisan Mocktail": "burg5.jpg",
+export type MenuCardProps = {
+  item: any; // Using any briefly to handle both types, but will be careful
+  index?: number;
+  onClick?: () => void;
 };
 
-export default function MenuItemCard({
-  item,
-  index,
-  onClick,
-}: MenuItemCardProps) {
-  const imageSrc = imageMap[item.name] ?? "burg.jpg";
+export function MenuItemCard({ item, index = 0, onClick }: MenuCardProps) {
+  const categoryLabel = item.category?.name || "Premium Selection";
+  const isHot = item.isHot || false;
+  const isAvailable = item.isAvailable !== false; // Default to true if undefined (JSON items)
+
+  const defaultImage = "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1200&q=80";
+  const normalizedImage = item.image
+    ? item.image.startsWith("http") || item.image.startsWith("/")
+      ? item.image
+      : defaultImage
+    : defaultImage;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
+    <motion.article
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ delay: index * 0.08, duration: 0.6 }}
-      className="w-full flex justify-center"
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      whileHover={{ y: -10 }}
+      onClick={onClick}
+      className={cn(
+        "group relative cursor-pointer glass-morphism rounded-3xl overflow-hidden transition-all duration-500",
+        !isAvailable && "opacity-60 grayscale-[0.5]"
+      )}
     >
-      <div
-        onClick={onClick}
-        className="group w-[92%] sm:w-full mx-auto max-w-lg cursor-pointer flex flex-col overflow-hidden rounded-[2rem] border border-white/5 bg-white/[0.02] backdrop-blur-2xl transition-all duration-700 hover:border-white/20 hover:bg-white/[0.04] shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_60px_rgba(212,175,55,0.15)] hover:-translate-y-2"
-      >
-        {/* Image */}
-        <div className="relative w-full h-72 md:h-80 overflow-hidden bg-black/50">
-          <Image
-            src={`/${imageSrc}`}
-            alt={item.name}
-            fill
-            sizes="(max-width: 768px) 100vw, 500px"
-            className="object-cover transition-transform duration-1000 ease-[0.16,1,0.3,1] group-hover:scale-110 opacity-90 group-hover:opacity-100"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-black/20 to-transparent" />
+      {/* High-End Image Container */}
+      <div className="relative h-64 w-full overflow-hidden">
+        <Image
+          src={normalizedImage}
+          alt={item.name}
+          fill
+          className="object-cover transition-transform duration-1000 group-hover:scale-110"
+          sizes="(max-width: 768px) 100vw, 33vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-black/20 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-40" />
+        
+        {/* Category Badge */}
+        <div className="absolute top-4 left-4 z-10">
+          <span className="glass px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-white/90">
+            {categoryLabel}
+          </span>
         </div>
 
-        {/* Content */}
-        <div className="p-8 md:p-10 text-center flex flex-col gap-4 flex-1 justify-between">
-          <div className="space-y-3">
-            <h3 className="text-2xl md:text-3xl font-light text-white tracking-wide">
-              {item.name}
-            </h3>
-
-            <p className="text-sm md:text-base text-white/50 leading-relaxed font-light">
-              {item.description}
-            </p>
+        {/* Hot Badge */}
+        {isHot && (
+          <div className="absolute top-4 right-4 z-10">
+            <div className="bg-accent/90 text-accent-foreground p-2 rounded-full shadow-lg">
+              <Flame size={16} fill="currentColor" />
+            </div>
           </div>
+        )}
+      </div>
 
-          <div className="pt-6 mt-4 border-t border-white/10 flex justify-center items-center">
-            <p className="text-xl md:text-2xl text-yellow-500 tracking-[0.2em] font-light">
-              ETB {item.price.toFixed(2)}
-            </p>
+      {/* Content Section */}
+      <div className="p-6 md:p-8">
+        <div className="flex justify-between items-start gap-4 mb-4">
+          <h3 className="text-xl md:text-2xl font-bold tracking-tight text-luxury group-hover:text-accent transition-colors duration-300">
+            {item.name}
+          </h3>
+          <div className="flex flex-col items-end">
+            <span className="text-xl font-bold text-accent">
+              ETB {item.price}
+            </span>
           </div>
+        </div>
+
+        <p className="text-foreground-muted text-sm md:text-base line-clamp-2 md:line-clamp-3 mb-6 font-light leading-relaxed">
+          {item.description}
+        </p>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1 text-accent/60">
+            <Star size={14} fill="currentColor" />
+            <Star size={14} fill="currentColor" />
+            <Star size={14} fill="currentColor" />
+            <Star size={14} fill="currentColor" />
+            <Star size={14} className="opacity-40" />
+          </div>
+          
+          <span className={cn(
+            "text-[10px] font-bold uppercase tracking-[0.2em]",
+            isAvailable ? "text-emerald-400" : "text-rose-400"
+          )}>
+            {isAvailable ? "Available Now" : "Coming Back Soon"}
+          </span>
         </div>
       </div>
-    </motion.div>
+      
+      {/* Premium Border Hover Effect */}
+      <div className="absolute inset-0 border-2 border-transparent group-hover:border-accent/20 rounded-3xl transition-colors duration-500 pointer-events-none" />
+    </motion.article>
   );
 }

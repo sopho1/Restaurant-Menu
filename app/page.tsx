@@ -1,132 +1,63 @@
-"use client";
+import prisma from "@/lib/prisma"
+import LandingPageClient from "@/components/LandingPageClient"
 
-import { useState } from "react";
-import menuData from "@/data/menu.json";
-import { MenuItem } from "@/lib/types";
-import HeroSection from "@/components/HeroSection";
-import MenuCategory from "@/components/MenuCategory";
-import FoodPreviewModal from "@/components/FoodPreviewModal";
-import TableBadge from "@/components/TableBadge";
-import Particles from "@/components/Particles";
+export const dynamic = "force-dynamic"
 
-export default function Home() {
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export default async function HomePage() {
+  const [categories, hotItems] = await Promise.all([
+    prisma.category.findMany({
+      include: {
+        menuItems: {
+          where: {
+            isAvailable: true,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+      },
+      orderBy: {
+        name: "asc",
+      },
+    }),
+    prisma.menuItem.findMany({
+      where: {
+        isAvailable: true,
+        isHot: true,
+        image: { not: null },
+      },
+      take: 5,
+    }),
+  ])
 
-  const handleItemClick = (item: MenuItem) => {
-    setSelectedItem(item);
-    setIsModalOpen(true);
-  };
+  // Map Prisma data to the structure the client component expects
+  const formattedCategories = categories.map((cat) => ({
+    id: cat.id,
+    name: cat.name,
+    items: cat.menuItems.map((item) => ({
+      id: item.id,
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      image: item.image,
+      isHot: item.isHot,
+      isAvailable: item.isAvailable,
+    })),
+  }))
 
-  const handleScrollDown = () => {
-    const firstCategory = document.getElementById(menuData.categories[0].id);
-    firstCategory?.scrollIntoView({ behavior: "smooth" });
-  };
+  const heroImages = hotItems.map(item => item.image).filter(Boolean) as string[]
+
+  const restaurant = {
+    name: "LUMIÈRE DINING",
+    tagline: "A Culinary Journey Through Light and Shadow",
+    logo: "https://images.unsplash.com/photo-1550966842-2849a22fdf07?q=80&w=2071&auto=format&fit=crop",
+  }
 
   return (
-    <main className="relative min-h-screen bg-black text-white overflow-x-hidden">
-      <Particles />
-      <TableBadge />
-
-      <HeroSection
-        restaurantName={menuData.restaurant.name}
-        tagline={menuData.restaurant.tagline}
-        onScrollDown={handleScrollDown}
-      />
-      <div className="flex flex-col gap-40 md:gap-56 lg:gap-72">
-        {menuData.categories.map((category) => (
-          <MenuCategory
-            key={category.id}
-            category={category}
-            onItemClick={handleItemClick}
-          />
-        ))}
-      </div>
-      <FoodPreviewModal
-        item={selectedItem}
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setTimeout(() => setSelectedItem(null), 300);
-        }}
-      />
-
-      {/* Spacer to prevent menu and footer from touching */}
-      <div className="h-28 md:h-24 lg:h-28 w-full" aria-hidden="true" />
-
-      <footer className="relative z-10 w-full py-20 mb-12 md:mb-20 border-t border-white/10 flex items-center justify-center">
-        <div className="w-full max-w-7xl mx-auto px-6 md:px-12">
-
-          {/* Gradient Divider */}
-          <div className="flex justify-center mb-16">
-            <div className="w-36 h-[2px] bg-gradient-to-r from-transparent via-yellow-500/70 to-transparent" />
-          </div>
-
-          {/* Footer Content */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-32 lg:gap-48 items-start">
-
-            {/* Brand Section */}
-            <div className="flex flex-col items-center md:items-start text-center md:text-left">
-              <h3 className="text-white text-xl font-semibold tracking-wide mb-4">
-                {menuData.restaurant.name}
-              </h3>
-
-              <p className="text-white/50 text-sm leading-relaxed max-w-sm">
-                Experience our digital menu and explore a curated selection of
-                dishes crafted with passion, quality ingredients, and authentic
-                culinary artistry.
-              </p>
-            </div>
-
-            {/* Social Section */}
-            <div className="flex flex-col items-center md:items-end text-center md:text-right">
-              <p className="text-xs uppercase tracking-[0.35em] text-white/40 mb-5">
-                Connect With Us
-              </p>
-
-              <div className="flex gap-6 text-white/60 text-sm font-light">
-
-                <a
-                  href="https://www.instagram.com/anna_galleria_rest?igsh=bDg3M3JmcGtrYml4"
-                  className="hover:text-yellow-400 transition duration-300"
-                >
-                  Instagram
-                </a>
-
-                <a
-                  href="https://tiktok.com/@anna.galleria.res"
-                  className="hover:text-yellow-400 transition duration-300"
-                >
-                  TikTok
-                </a>
-
-                <a
-                  href="https://annagalleria.vercel.app"
-                  className="hover:text-yellow-400 transition duration-300"
-                >
-                  Website
-                </a>
-
-              </div>
-            </div>
-
-          </div>
-
-          {/* Bottom Footer */}
-          <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-
-            <p className="text-xs uppercase tracking-[0.35em] text-white/30">
-              Digital Menu Experience
-            </p>
-
-            <p className="text-sm text-white/40 font-light">
-              © {new Date().getFullYear()} {menuData.restaurant.name}. All rights reserved.
-            </p>
-
-          </div>
-
-        </div>
-      </footer>
-    </main>
-  );
+    <LandingPageClient 
+      restaurant={restaurant} 
+      categories={formattedCategories} 
+      heroImages={heroImages.length > 0 ? heroImages : undefined}
+    />
+  )
 }

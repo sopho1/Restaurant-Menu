@@ -1,24 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function TableBadge() {
-  const [tableNumber, setTableNumber] = useState<string | null>(null);
+  const [tableNumber] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const table = params.get("table");
-      if (table) {
-        setTableNumber(table);
-        localStorage.setItem("tableNumber", table);
-      } else {
-        const stored = localStorage.getItem("tableNumber");
-        if (stored) setTableNumber(stored);
-      }
+    const params = new URLSearchParams(window.location.search);
+    const table = params.get("table");
+
+    if (table) {
+      localStorage.setItem("tableNumber", table);
+      return table;
     }
-  }, []);
+
+    return localStorage.getItem("tableNumber");
+  });
+
+  // No need for useEffect because state is initialized from URL/localStorage on first load.
 
   if (!tableNumber) return null;
 

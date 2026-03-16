@@ -1,12 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MenuCategory as MenuCategoryType, MenuItem } from "@/lib/types";
-import MenuItemCard from "./MenuItemCard";
+import { type MenuItem } from "@/lib/types";
+import { MenuItemCard } from "./MenuItemCard";
 
 interface MenuCategoryProps {
-  category: MenuCategoryType;
-  onItemClick: (item: MenuItem) => void;
+  category: {
+    id: string;
+    name: string;
+    icon?: string;
+    items: any[];
+  };
+  onItemClick: (item: any) => void;
 }
 
 export default function MenuCategory({
@@ -14,51 +19,46 @@ export default function MenuCategory({
   onItemClick,
 }: MenuCategoryProps) {
   return (
-    <section
-      id={category.id}
-      className="px-6 md:px-8 flex justify-center"
-    >
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-7xl flex flex-col items-center text-center"
-      >
-        {/* Category Header */}
-        <div className="flex flex-col items-center gap-6 mb-24 md:mb-32">
-          <div className="p-4 rounded-full bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_0_30px_rgba(255,255,255,0.05)]">
-            <span className="text-4xl md:text-5xl opacity-90 block">
+    <section id={category.id} className="section-padding">
+      <div className="container-custom">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-16 md:mb-24 flex flex-col items-center text-center"
+        >
+          {category.icon && (
+            <div className="w-16 h-16 rounded-full glass flex items-center justify-center text-2xl mb-8 animate-float">
               {category.icon}
-            </span>
-          </div>
-
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light text-white tracking-tighter mt-4">
+            </div>
+          )}
+          
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 text-luxury text-gold-gradient">
             {category.name}
           </h2>
+          
+          <div className="w-24 h-1 bg-accent rounded-full mb-8" />
+          
+          <p className="text-foreground-muted max-w-2xl text-lg font-light tracking-wide">
+            Explore our meticulously crafted {category.name.toLowerCase()}, where tradition meets innovation in every bite.
+          </p>
+        </motion.div>
 
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.2 }}
-            style={{ transformOrigin: "center" }}
-            className="w-24 h-px bg-linear-to-r from-transparent via-white/25 to-transparent"
-          />
-        </div>
-
-        {/* Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
           {category.items.map((item, index) => (
             <MenuItemCard
               key={item.id}
-              item={item}
+              item={{ 
+                ...item, 
+                category: { id: category.id, name: category.name } 
+              }}
               index={index}
               onClick={() => onItemClick(item)}
             />
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
-}
+}

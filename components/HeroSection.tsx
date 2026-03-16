@@ -1,149 +1,137 @@
 "use client";
 
-import { motion, AnimatePresence, type Easing } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { ChevronDown } from "lucide-react";
 
 interface HeroSectionProps {
   restaurantName: string;
   tagline: string;
   onScrollDown: () => void;
+  heroImages?: string[];
+  logo?: string;
 }
 
-const heroImages = [
-  "/burg.jpg",
-  "/burg1.jpg",
-  "/burg2.jpg",
-  "/burg3.jpg",
+const defaultHeroImages = [
+  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1887&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1780&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1567620905732-2d1ec7bb7445?q=80&w=1980&auto=format&fit=crop",
 ];
-
-const easeOutExpo: Easing = [0.16, 1, 0.3, 1];
 
 export default function HeroSection({
   restaurantName,
   tagline,
   onScrollDown,
+  heroImages = defaultHeroImages,
+  logo = "https://images.unsplash.com/photo-1550966842-2849a22fdf07?q=80&w=2071&auto=format&fit=crop",
 }: HeroSectionProps) {
   const [index, setIndex] = useState(0);
-  const imageSrc = heroImages[index % heroImages.length];
 
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((i) => i + 1);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-
-      {/* Background Images */}
+    <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+      {/* Background Slider */}
       <div className="absolute inset-0 z-0">
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence mode="wait">
           <motion.div
-            key={imageSrc}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.2, ease: easeOutExpo }}
+            key={index}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
             className="absolute inset-0"
           >
             <Image
-              src={imageSrc}
-              alt="Luxury dish background"
+              src={heroImages[index % heroImages.length]}
+              alt="Culinary excellence"
               fill
               priority
-              sizes="100vw"
-              className="object-cover"
+              className="object-cover brightness-50"
             />
           </motion.div>
         </AnimatePresence>
-
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/60" />
+        {/* Cinematic Gradient Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40" />
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto gap-8 flex flex-col items-center">
-        {/* Logo */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 text-center">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: easeOutExpo }}
-          className="mb-6"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="mb-12 inline-block"
         >
-          <div className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full overflow-hidden border border-white/20 bg-white/5 backdrop-blur-xl shadow-[0_0_40px_rgba(0,0,0,0.6)]">
-            <Image
-              src="/logo.jpg"
-              alt={`${restaurantName} logo`}
-              fill
-              sizes="144px"
-              className="object-cover"
-              priority
-            />
+          <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border border-white/10 glass p-2 shadow-2xl animate-float">
+            <div className="relative w-full h-full rounded-full overflow-hidden">
+              <Image
+                src={logo}
+                alt={restaurantName}
+                fill
+                className="object-cover"
+              />
+            </div>
           </div>
         </motion.div>
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: easeOutExpo }}
-          className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-light text-white mb-6 tracking-tighter"
+          transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <span className="bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl lg:text-9xl font-bold mb-6 tracking-tight text-luxury text-gold-gradient">
             {restaurantName}
-          </span>
-        </motion.h1>
+          </h1>
+          
+          <p className="text-lg md:text-2xl text-foreground-muted mb-12 max-w-2xl mx-auto font-light tracking-wide px-4">
+            {tagline}
+          </p>
 
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.15, ease: easeOutExpo }}
-          className="text-xl sm:text-2xl md:text-3xl text-white/80 font-light tracking-wide mb-16  text-center justify-center items-center flex flex-col"
-        >
-          {tagline}
-        </motion.p>
-
-        <motion.button
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: easeOutExpo }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={onScrollDown}
-          className="rounded-full cursor-pointer px-10 py-5 md:px-14 md:py-6 text-sm md:text-base tracking-[0.2em] uppercase font-medium text-white border border-white/20 hover:border-yellow-500 hover:bg-yellow-500 hover:text-black transition-all duration-500 backdrop-blur-md bg-white/5 shadow-[0_0_40px_rgba(255,255,255,0.05)] hover:shadow-[0_0_60px_rgba(234,179,8,0.3)]"
-        >
-          View Menu
-        </motion.button>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={onScrollDown}
+              className="px-8 py-4 bg-accent text-accent-foreground rounded-full font-semibold tracking-widest uppercase text-sm hover:shadow-[0_0_30px_rgba(245,158,11,0.4)] transition-all duration-300 min-w-[200px]"
+            >
+              Explore Menu
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 border border-white/20 glass rounded-full font-semibold tracking-widest uppercase text-sm hover:bg-white/10 transition-all duration-300 min-w-[200px]"
+            >
+              Our Story
+            </motion.button>
+          </div>
+        </motion.div>
       </div>
 
       {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10"
+        transition={{ delay: 1.5, duration: 1 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
+        onClick={onScrollDown}
       >
-        <motion.button
-          onClick={onScrollDown}
-          aria-label="Scroll to menu"
-          className="flex flex-col items-center gap-2 text-white/60 hover:text-white transition-colors duration-300"
+        <span className="text-[10px] uppercase tracking-[0.4em] text-foreground-muted">Discover</span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
         >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="w-6 h-10 rounded-full border-2 border-current flex items-start justify-center pt-2"
-          >
-            <motion.div
-              animate={{ y: [0, 10, 0], opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="w-1 h-2.5 bg-current rounded-full"
-            />
-          </motion.div>
-          <span className="text-xs font-medium tracking-widest uppercase">
-            Scroll
-          </span>
-        </motion.button>
+          <ChevronDown className="w-6 h-6 text-accent" />
+        </motion.div>
       </motion.div>
     </section>
   );
-}
+}

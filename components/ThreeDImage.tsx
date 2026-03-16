@@ -7,7 +7,7 @@ import { Image as DreiImage, Preload } from "@react-three/drei";
 import * as THREE from "three";
 
 function InteractiveImage({ src }: { src: string }) {
-    const imageRef = useRef<any>(null);
+    const imageRef = useRef<THREE.Object3D | null>(null);
     const { viewport } = useThree();
 
     useFrame((state) => {

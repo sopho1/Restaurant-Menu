@@ -1,69 +1,16 @@
 "use client";
 
-import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { MenuItem } from "@/lib/types";
-import { formatPrice } from "@/lib/utils";
 import ThreeDImage from "./ThreeDImage";
 import { useEffect } from "react";
+import { X, Flame, Star, Sparkles } from "lucide-react";
 
 interface FoodPreviewModalProps {
   item: MenuItem | null;
   isOpen: boolean;
   onClose: () => void;
 }
-
-/* -------------------------------- */
-/* Manual Image Mapping (Same as Card) */
-/* -------------------------------- */
-
-const imageMap: Record<string, string> = {
-  "lasagna": "burg.jpg",
-  "Tempura roll": "burg1.jpg",
-  "Pasta combo": "burg2.jpg",
-  "Orange Chicken": "burg3.jpg",
-
-  // Mains
-  "Fasting Combo": "burg4.jpg",
-  "BBQ Chicken Wings": "burg5.jpg",
-  "Special Pizza": "burg.jpg",
-  "Special Burger": "burg1.jpg",
-  "Fish and Chips": "burg2.jpg",
-
-  // Desserts
-  "Chocolate Soufflé": "burg3.jpg",
-  "Vanilla Crème Brûlée": "burg4.jpg",
-  "Artisan Tiramisu": "burg5.jpg",
-  "Mixed Berry Tart": "burg.jpg",
-
-  // Drinks
-  "Wine Flight": "burg1.jpg",
-  "Signature Cocktail": "burg2.jpg",
-  "Premium Whiskey Tasting": "burg3.jpg",
-  "Dom Pérignon": "burg4.jpg",
-  "Artisan Mocktail": "burg5.jpg",
-};
-
-const backdrop: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-  exit: { opacity: 0 },
-};
-
-const panel: Variants = {
-  hidden: { opacity: 0, scale: 0.96, y: 24 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-  },
-  exit: {
-    opacity: 0,
-    scale: 0.96,
-    y: 24,
-    transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
-  },
-};
 
 export default function FoodPreviewModal({
   item,
@@ -83,99 +30,99 @@ export default function FoodPreviewModal({
 
   if (!item) return null;
 
-  const imageSrc = imageMap[item.id] ?? "burg.jpg";
+  const normalizedImage = item.image && (item.image.startsWith("http") || item.image.startsWith("/")) 
+    ? item.image 
+    : "/burg.jpg";
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {/* Immersive Backdrop */}
           <motion.div
-            variants={backdrop}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/95 backdrop-blur-xl z-50"
+            className="fixed inset-0 bg-black/95 backdrop-blur-3xl z-[100]"
           />
 
-          {/* Modal Panel */}
+          {/* Luxury Modal Panel */}
           <motion.div
-            variants={panel}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className="fixed inset-4 md:inset-12 lg:inset-20 z-50 bg-black/40 backdrop-blur-2xl rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_0_100px_rgba(0,0,0,0.8)]"
+            initial={{ opacity: 0, scale: 0.9, y: 40 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 40 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="fixed inset-4 md:inset-12 lg:inset-20 xl:inset-32 z-[101] glass-morphism rounded-[3rem] overflow-hidden border border-white/10 shadow-[0_0_120px_rgba(0,0,0,0.8)] flex flex-col md:flex-row"
           >
-            <div className="h-full flex flex-col md:flex-row">
-
-              {/* Image Side */}
-              <div className="w-full md:w-1/2 lg:w-[45%] h-[40vh] md:h-full relative bg-black">
-                <ThreeDImage src={`/${imageSrc}`} alt={item.name} />
+            {/* Visual Experience Side */}
+            <div className="w-full md:w-1/2 h-1/2 md:h-full relative bg-black/40 border-b md:border-b-0 md:border-r border-white/5">
+              <ThreeDImage src={normalizedImage} alt={item.name} />
+              
+              {/* Overlay Badges */}
+              <div className="absolute top-8 left-8 flex flex-col gap-3">
+                 <div className="glass px-4 py-2 rounded-2xl flex items-center gap-2">
+                    <Sparkles size={16} className="text-accent" />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">Culinary Art</span>
+                 </div>
               </div>
+            </div>
 
-              {/* Content Side */}
-              <div className="flex-1 p-8 md:p-16 lg:p-24 flex items-center justify-center relative">
-                {/* Close Button */}
-                <motion.button
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                  onClick={onClose}
-                  className="absolute top-6 right-6 md:top-10 md:right-10 w-14 h-14 rounded-full bg-white/5 backdrop-blur-md flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 hover:scale-105 transition-all duration-300 border border-white/5"
-                  aria-label="Close"
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M18 6L6 18M6 6l12 12" />
-                  </svg>
-                </motion.button>
+            {/* Content & Details Side */}
+            <div className="flex-1 p-8 md:p-16 lg:p-20 relative flex flex-col justify-center">
+              {/* Close Button */}
+              <button
+                onClick={onClose}
+                className="absolute top-8 right-8 w-12 h-12 rounded-full glass border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 hover:scale-110 transition-all duration-300"
+              >
+                <X size={20} />
+              </button>
 
-                {/* Centered Content */}
-                <div className="flex flex-col items-start justify-center gap-8 max-w-2xl w-full">
-                  <div className="space-y-4 w-full">
-                    <motion.h2
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.15, duration: 0.6, ease: "easeOut" }}
-                      className="text-5xl md:text-6xl lg:text-7xl font-light text-white tracking-tighter"
-                    >
-                      {item.name}
-                    </motion.h2>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="max-w-xl"
+              >
+                <div className="flex items-center gap-2 mb-6">
+                  <Star size={12} fill="currentColor" className="text-accent" />
+                  <Star size={12} fill="currentColor" className="text-accent" />
+                  <Star size={12} fill="currentColor" className="text-accent" />
+                  <Star size={12} fill="currentColor" className="text-accent" />
+                  <Star size={12} fill="currentColor" className="text-accent" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30 ml-2">Signature Dish</span>
+                </div>
+
+                <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 text-luxury text-gold-gradient leading-[1.1]">
+                  {item.name}
+                </h2>
+
+                <div className="w-24 h-1 bg-accent rounded-full mb-10" />
+
+                <p className="text-foreground-muted text-lg md:text-xl font-light leading-relaxed mb-12">
+                  {item.description}
+                </p>
+
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8 pt-10 border-t border-white/5">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 mb-2">Price Estimate</span>
+                    <span className="text-4xl md:text-5xl font-bold text-accent">
+                      ETB {item.price}
+                    </span>
                   </div>
 
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ delay: 0.3, duration: 0.8 }}
-                    className="w-24 h-[1px] bg-gradient-to-r from-yellow-500/50 to-transparent my-2 origin-left"
-                  />
-
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.25, duration: 0.6 }}
-                    className="text-lg md:text-xl lg:text-2xl text-white/50 leading-relaxed font-light"
+                  <button 
+                    onClick={onClose}
+                    className="px-10 py-5 bg-white text-black rounded-full font-bold uppercase tracking-widest text-xs hover:bg-accent hover:text-accent-foreground transition-all duration-300 shadow-xl"
                   >
-                    {item.description}
-                  </motion.p>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.35, duration: 0.6 }}
-                    className="mt-8 pt-10 border-t border-white/10 w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
-                  >
-                    <span className="text-4xl md:text-5xl lg:text-6xl font-light text-white flex items-baseline gap-2">
-                      {formatPrice(item.price)}
-                    </span>
-                  </motion.div>
+                    Close Preview
+                  </button>
                 </div>
-              </div>
-
+              </motion.div>
             </div>
           </motion.div>
         </>
       )}
     </AnimatePresence>
   );
-}
+}

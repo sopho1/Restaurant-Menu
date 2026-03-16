@@ -1,43 +1,47 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next"
-import "./globals.css";
+import { Metadata } from "next"
+import { Inter, Playfair_Display } from "next/font/google"
+import { Toaster } from "react-hot-toast"
+import "./globals.css"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({ 
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+  variable: "--font-sans",
+})
 
 const playfair = Playfair_Display({
-  variable: "--font-playfair",
   subsets: ["latin"],
-  display: "swap",
-});
+  variable: "--font-luxury",
+})
 
 export const metadata: Metadata = {
-  title: "Anna Galleria - Digital Menu",
-  description: "Premium restaurant digital menu experience",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
-};
+  title: "Restaurant Menu | Luxury Experience",
+  description: "Experience the finest culinary art with our modern digital menu.",
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased`}
-      >
+    <html lang="en" className={`${inter.variable} ${playfair.variable} scroll-smooth`}>
+      <body className="bg-background text-foreground selection:bg-accent selection:text-accent-foreground">
         {children}
-        <Analytics />
+        <Toaster 
+          position="top-center"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: "rgba(255, 255, 255, 0.05)",
+              color: "#fff",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              borderRadius: "1rem",
+            }
+          }}
+        />
       </body>
     </html>
-  );
+  )
 }
+
