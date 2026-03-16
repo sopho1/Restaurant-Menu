@@ -1,6 +1,6 @@
 import NextAuth from "next-auth"
 
-export const { auth: middleware } = NextAuth({
+const { auth } = NextAuth({
   providers: [],
   pages: {
     signIn: "/admin/login",
@@ -13,14 +13,19 @@ export const { auth: middleware } = NextAuth({
 
       if (isOnAdmin && !isLoginRoute) {
         if (isLoggedIn) return true
-        return false // Redirect unauthenticated users to login page
-      } else if (isLoggedIn && isLoginRoute) {
+        return false
+      }
+
+      if (isLoggedIn && isLoginRoute) {
         return Response.redirect(new URL("/admin/dashboard", nextUrl))
       }
+
       return true
     },
   },
 })
+
+export const middleware = auth
 
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],

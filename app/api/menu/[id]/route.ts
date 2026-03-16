@@ -5,11 +5,13 @@ import { auth } from "@/lib/auth"
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
+
     const menuItem = await prisma.menuItem.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: { category: true },
     })
 
@@ -25,17 +27,19 @@ export async function GET(
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
     if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
+    const { id } = await params
+
     const body = await req.json()
     const validatedData = MenuItemSchema.parse(body)
 
     const menuItem = await prisma.menuItem.update({
-      where: { id: params.id },
+      where: { id },
       data: validatedData,
       include: { category: true },
     })
@@ -48,14 +52,16 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
     if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
+    const { id } = await params
+
     const menuItem = await prisma.menuItem.delete({
-      where: { id: params.id },
+      where: { id },
     })
 
     return NextResponse.json(menuItem)

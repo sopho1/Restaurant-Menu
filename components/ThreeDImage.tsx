@@ -7,7 +7,7 @@ import { Image as DreiImage, Preload } from "@react-three/drei";
 import * as THREE from "three";
 
 function InteractiveImage({ src }: { src: string }) {
-    const imageRef = useRef<THREE.Object3D | null>(null);
+    const imageRef = useRef<THREE.Mesh>(null!);
     const { viewport } = useThree();
 
     useFrame((state) => {
@@ -48,8 +48,6 @@ function InteractiveImage({ src }: { src: string }) {
             transparent
             position={[0, 0, 0]}
             scale={[viewport.width * 1.3, viewport.height * 1.3]}
-            // @ts-expect-error - 'cover' is valid for @react-three/drei Image but missing in types
-            cover
         />
     );
 }
