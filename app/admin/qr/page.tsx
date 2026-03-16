@@ -21,8 +21,11 @@ export default function QRGeneratorPage() {
   const [authError, setAuthError] = useState("");
   const [passwordAttempts, setPasswordAttempts] = useState(0);
 
-  const BASE_DOMAIN = "https://restaurant-menu-rho-mocha.vercel.app/";
-  const LOGO_URL = "https://images.unsplash.com/photo-1550966842-2849a22fdf07?q=80&w=2071&auto=format&fit=crop";
+  const BASE_DOMAIN = "https://annagalleria.vercel.app/";
+  const LOGO_URL = "/logo.jpg";
+  
+  // Hardcoded password - Change this to whatever you want
+  const CORRECT_PASSWORD = "anna123"; // You can change this to any password
 
   const handleGenerateClick = () => {
     setShowPasswordModal(true);
@@ -31,29 +34,32 @@ export default function QRGeneratorPage() {
     setAuthError("");
   };
 
-  const verifyPasswordAndGenerate = async () => {
-    const correctPassword = process.env.NEXT_PUBLIC_QR_ADMIN_PASSWORD || "admin123";
-
-    if (passwordInput !== correctPassword) {
+  const verifyPasswordAndGenerate = () => {
+    // Simple hardcoded password check
+    if (passwordInput !== CORRECT_PASSWORD) {
       const newAttempts = passwordAttempts + 1;
       setPasswordAttempts(newAttempts);
       
       if (newAttempts >= 3) {
-        setAuthError("Maximum attempts exceeded.");
+        setAuthError("Maximum attempts exceeded. Access locked.");
         setTimeout(() => {
           setShowPasswordModal(false);
           setPasswordAttempts(0);
           setPasswordInput("");
           setAuthError("");
-        }, 1500);
+        }, 2000);
       } else {
-        setAuthError(`Incorrect credentials. ${3 - newAttempts} attempts remaining.`);
+        setAuthError(`Incorrect password. ${3 - newAttempts} attempts remaining.`);
       }
       return;
     }
 
+    // Password correct - close modal and generate QR
     setShowPasswordModal(false);
-    await generateQR();
+    setPasswordAttempts(0);
+    setPasswordInput("");
+    setAuthError("");
+    generateQR();
   };
 
   const generateQR = async () => {
@@ -75,6 +81,8 @@ export default function QRGeneratorPage() {
 
       setQrDataUrl(dataUrl);
       setShowQRModal(true);
+    } catch (error) {
+      console.error("QR generation failed:", error);
     } finally {
       setLoading(false);
     }
@@ -198,8 +206,8 @@ export default function QRGeneratorPage() {
                 <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto text-white/20">
                   <ShieldCheck size={32} />
                 </div>
-                <h2 className="text-2xl font-bold text-luxury text-gold-gradient">Authorization</h2>
-                <p className="text-sm text-foreground-muted font-light">Confirm administrative ownership to forge this link.</p>
+                <h2 className="text-2xl font-bold text-luxury text-gold-gradient">Authorization Required</h2>
+                <p className="text-sm text-foreground-muted font-light">Enter password to generate QR code</p>
               </div>
 
               <div className="space-y-6">
@@ -212,13 +220,20 @@ export default function QRGeneratorPage() {
                   placeholder="••••••••"
                   autoFocus
                 />
-                {authError && <p className="text-center text-rose-500 text-xs font-bold uppercase tracking-widest">{authError}</p>}
+                {authError && (
+                  <p className="text-center text-rose-500 text-xs font-bold uppercase tracking-widest">
+                    {authError}
+                  </p>
+                )}
                 <button
                   onClick={verifyPasswordAndGenerate}
                   className="w-full py-5 bg-accent text-accent-foreground rounded-2xl font-bold uppercase tracking-widest text-xs hover:shadow-[0_0_30px_rgba(245,158,11,0.3)] transition-all"
                 >
                   Verify Access
                 </button>
+                <p className="text-center text-white/20 text-xs">
+                  Hint: The password is <span className="text-accent">anna123</span>
+                </p>
               </div>
             </motion.div>
           </div>
@@ -245,9 +260,11 @@ export default function QRGeneratorPage() {
               </p>
 
               <div className="relative inline-block w-full max-w-[320px] mx-auto mb-12 p-8 bg-white rounded-[2rem] shadow-[0_0_100px_rgba(255,255,255,0.1)]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={qrDataUrl} alt="QR Link" className="w-full h-auto" />
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                    <div className="w-16 h-16 bg-white p-3 rounded-2xl shadow-2xl border-4 border-white">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={LOGO_URL} alt="Logo" className="w-full h-full object-cover rounded-lg" />
                    </div>
                 </div>

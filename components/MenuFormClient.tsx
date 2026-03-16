@@ -91,7 +91,7 @@ export function MenuFormClient({
       <div className="mb-6">
         <button
           onClick={() => router.back()}
-          className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+          className="flex items-center text-gray-300 hover:text-gray-400 cursor-pointer transition-colors"
         >
           <ArrowLeft size={20} className="mr-2" /> Back to Menu Items
         </button>
