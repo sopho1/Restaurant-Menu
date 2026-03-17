@@ -44,6 +44,14 @@ export async function PUT(
       include: { category: true },
     })
 
+    await prisma.activity.create({
+      data: {
+        type: "menu",
+        message: `Updated menu item '${menuItem.name}'.`,
+        userId: session?.user?.id ?? undefined,
+      },
+    })
+
     return NextResponse.json(menuItem)
   } catch (error) {
     return NextResponse.json({ error: "Invalid request data" }, { status: 400 })
@@ -62,6 +70,14 @@ export async function DELETE(
 
     const menuItem = await prisma.menuItem.delete({
       where: { id },
+    })
+
+    await prisma.activity.create({
+      data: {
+        type: "menu",
+        message: `Deleted menu item '${menuItem.name}'.`,
+        userId: session?.user?.id ?? undefined,
+      },
     })
 
     return NextResponse.json(menuItem)

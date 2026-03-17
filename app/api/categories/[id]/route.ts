@@ -19,6 +19,14 @@ export async function DELETE(
       where: { id },
     })
 
+    await prisma.activity.create({
+      data: {
+        type: "category",
+        message: `Deleted category '${category.name}'.`,
+        userId: session?.user?.id ?? undefined,
+      },
+    })
+
     return NextResponse.json(category)
   } catch (error) {
     return NextResponse.json(

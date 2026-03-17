@@ -50,7 +50,7 @@ export default async function HomePage() {
   const restaurant = {
     name: "LUMIÈRE DINING",
     tagline: "A Culinary Journey Through Light and Shadow",
-    logo: "https://images.unsplash.com/photo-1550966842-2849a22fdf07?q=80&w=2071&auto=format&fit=crop",
+    logo: "/logo.jpg",
   }
 
   return (

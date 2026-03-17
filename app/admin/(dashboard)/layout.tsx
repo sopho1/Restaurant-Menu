@@ -15,12 +15,15 @@ export default async function AdminLayout({
     redirect("/admin/login")
   }
 
+  const adminEmail = process.env.ADMIN_EMAIL 
+  const userEmail = session?.user?.email ?? adminEmail
+
   return (
     <div className="flex h-screen bg-[#050505] text-white">
       {/* Sidebar */}
       <aside className="w-72 border-r border-white/5 bg-black/40 backdrop-blur-2xl flex flex-col transition-all duration-300">
         <div className="flex h-24 items-center px-8">
-          <Link href="/" className="group flex items-center gap-3">
+          <Link href="#" className="group flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center text-accent-foreground font-bold shadow-lg shadow-accent/20 transition-transform group-hover:scale-110">
               R
             </div>
@@ -64,6 +67,13 @@ export default async function AdminLayout({
             <Settings size={18} className="group-hover:text-accent transition-colors" />
             <span className="text-sm font-medium tracking-wide">QR Codes</span>
           </Link>
+          <Link
+            href="/admin/settings"
+            className="flex items-center gap-3 rounded-2xl px-4 py-3.5 text-foreground-muted transition-all duration-300 hover:bg-white/5 hover:text-white group"
+          >
+            <Settings size={18} className="group-hover:text-accent transition-colors" />
+            <span className="text-sm font-medium tracking-wide">Settings</span>
+          </Link>
 
           <p className="px-4 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30 mb-4 mt-8">External</p>
           <Link
@@ -101,13 +111,18 @@ export default async function AdminLayout({
           <div>
             <h2 className="text-sm font-bold uppercase tracking-[0.3em] text-white/40">Workspace</h2>
           </div>
-          <div className="flex items-center gap-6">
-            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+          <div className="flex items-center gap-4">
+            <Link href="/admin/settings" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
               <Settings size={18} />
-            </button>
-            <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold">
-              A
-            </div>
+            </Link>
+            <details className="relative">
+              <summary className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold cursor-pointer select-none">A</summary>
+              <div className="absolute right-0 mt-2 w-56 rounded-lg bg-[#0e0e0e] border border-white/10 shadow-lg p-3 text-xs">
+                <p className="text-white/90 font-semibold">{userEmail}</p>
+                <p className="text-white/50">Logged in admin</p>
+                <Link href="/admin/settings" className="mt-2 inline-block text-rose-400 hover:text-rose-300">Go to settings</Link>
+              </div>
+            </details>
           </div>
         </div>
         

@@ -37,6 +37,25 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
   ],
   session: {
     strategy: "jwt",
+    maxAge: 60, // 1 minute session lifetime
+    updateAge: 30, // refresh token every 30 seconds while active
+  },
+  jwt: {
+    maxAge: 60,
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = (user as any).id
+      }
+      return token
+    },
+    async session({ session, token }) {
+      if (session.user && token.id) {
+        ;(session.user as any).id = token.id
+      }
+      return session
+    },
   },
   pages: {
     signIn: "/admin/login",

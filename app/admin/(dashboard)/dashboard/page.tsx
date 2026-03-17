@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma"
 import { Users, Utensils, Tags, TrendingUp, ArrowUpRight, Activity } from "lucide-react"
+import { ActivityChart } from "@/components/ActivityChart"
 
 export const dynamic = "force-dynamic"
 
@@ -46,6 +47,41 @@ export default async function DashboardPage() {
     },
   ]
 
+  const activityClient = (prisma as any).activity
+  const recentActivities = (activityClient
+    ? await activityClient.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 5,
+        include: { user: { select: { email: true } } },
+      })
+    : []) as Array<{ id: string; type: string; message: string; createdAt: Date; user?: { email?: string } }>
+
+
+  const weekStart = new Date()
+  weekStart.setHours(0, 0, 0, 0)
+  weekStart.setDate(weekStart.getDate() - 6)
+
+  const weekActivities = (activityClient
+    ? await activityClient.findMany({
+        where: { createdAt: { gte: weekStart } },
+        orderBy: { createdAt: "asc" },
+      })
+    : []) as Array<{ createdAt: Date }>
+
+  const dailyCounts = Array.from({ length: 7 }, (_, idx) => {
+    const date = new Date(weekStart)
+    date.setDate(weekStart.getDate() + idx)
+    const iso = date.toISOString().slice(0, 10)
+    return {
+      date,
+      label: iso,
+      short: date.toLocaleDateString(undefined, { weekday: "short" }),
+      count: weekActivities.filter((a) => a.createdAt.toISOString().slice(0, 10) === iso).length,
+    }
+  })
+
+  const maxDaily = Math.max(1, ...dailyCounts.map((d) => d.count))
+
   return (
     <div className="space-y-12">
       <div>
@@ -75,31 +111,49 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="glass-morphism rounded-3xl p-10">
           <h3 className="text-xl font-bold text-luxury mb-8">Recent Activity</h3>
-          <div className="space-y-6">
-            {[1, 2, 3].map((_, i) => (
-              <div key={i} className="flex items-center gap-6 p-4 rounded-2xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
-                <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-xs font-bold">
-                  JS
+          <div className="space-y-4 mb-8">
+            {recentActivities.length === 0 ? (
+              <p className="text-sm text-foreground-muted">No activity yet. Start creating and editing items to generate events.</p>
+            ) : (
+              recentActivities.map((item) => (
+                <div key={item.id} className="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/5 transition-colors border border-white/5">
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold">
+                    {item.type.slice(0, 2).toUpperCase()}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold">{item.message}</p>
+                    <p className="text-xs text-foreground-muted">
+                      {item.user?.email ?? "Unknown"} • {item.createdAt.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="text-accent">
+                    <Activity size={16} />
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold">New item added to "Main Course"</p>
-                  <p className="text-xs text-foreground-muted">2 hours ago</p>
-                </div>
-                <div className="text-accent">
-                  <Activity size={16} />
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
+          <a href="/admin/activities" className="text-lg font-semibold text-accent hover:text-yellow-300">Show all</a>
         </div>
 
-        <div className="glass-morphism rounded-3xl p-10 flex flex-col items-center justify-center text-center">
-          <div className="w-20 h-20 rounded-full bg-accent/10 text-accent flex items-center justify-center mb-6 animate-float">
-            <TrendingUp size={32} />
+        <div className="glass-morphism rounded-3xl p-10">
+          <div className="flex items-start justify-between">
+            <div>
+              <h3 className="text-xl font-bold text-luxury mb-2">Performance Spike</h3>
+              <p className="text-foreground-muted font-light max-w-xs mb-4">
+                Recent activity trend for the last 7 days.
+              </p>
+            </div>
           </div>
-          <h3 className="text-xl font-bold text-luxury mb-2">Performance Spike</h3>
-          <p className="text-foreground-muted font-light max-w-xs mx-auto">Your menu views are up 24% this week. Consider highlighting your best-sellers.</p>
-          <button className="mt-8 px-8 py-3 bg-white/5 border border-white/10 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-all">Details</button>
+
+          <div className="w-full h-66 mt-4">
+            <ActivityChart initialData={dailyCounts.map((d) => ({ day: d.short, count: d.count }))} />
+          </div>
+
+          <div className="mt-16 p-4 rounded-2xl bg-white/5 border border-white/10">
+            <div className="text-sm text-foreground-muted">Total activity last 7d</div>
+            <div className="text-2xl font-bold text-white">{weekActivities.length}</div>
+          </div>
         </div>
       </div>
     </div>

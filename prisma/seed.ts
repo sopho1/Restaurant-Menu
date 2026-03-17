@@ -4,14 +4,16 @@ import { hash } from "bcryptjs"
 const prisma = new PrismaClient()
 
 async function main() {
-  const hashedPassword = await hash("admin123", 10)
+  const adminEmail = process.env.ADMIN_EMAIL || "admin@restaurant.com"
+  const adminPlainPassword = process.env.ADMIN_PASSWORD || "admin123"
+  const hashedPassword = await hash(adminPlainPassword, 10)
 
   // Create an admin user
   const admin = await prisma.user.upsert({
-    where: { email: "admin@restaurant.com" },
-    update: {},
+    where: { email: adminEmail },
+    update: { password: hashedPassword },
     create: {
-      email: "admin@restaurant.com",
+      email: adminEmail,
       password: hashedPassword,
     },
   })
@@ -76,8 +78,8 @@ async function main() {
   })
 
   console.log("Database seeded successfully with Admin account!")
-  console.log("Admin Email:", "admin@restaurant.com")
-  console.log("Admin Password:", "admin123")
+  console.log("Admin Email:", adminEmail)
+  console.log("Admin Password:", adminPlainPassword)
 }
 
 main()

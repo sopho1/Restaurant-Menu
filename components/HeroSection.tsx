@@ -9,6 +9,7 @@ interface HeroSectionProps {
   restaurantName: string;
   tagline: string;
   onScrollDown: () => void;
+  onStoryClick?: () => void;
   heroImages?: string[];
   logo?: string;
 }
@@ -24,8 +25,9 @@ export default function HeroSection({
   restaurantName,
   tagline,
   onScrollDown,
+  onStoryClick,
   heroImages = defaultHeroImages,
-  logo = "https://images.unsplash.com/photo-1550966842-2849a22fdf07?q=80&w=2071&auto=format&fit=crop",
+  logo = "/logo.jpg",
 }: HeroSectionProps) {
   const [index, setIndex] = useState(0);
 
@@ -108,6 +110,7 @@ export default function HeroSection({
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={onStoryClick}
               className="px-8 py-4 border border-white/20 glass rounded-full font-semibold tracking-widest uppercase text-sm hover:bg-white/10 transition-all duration-300 min-w-[200px]"
             >
               Our Story
@@ -134,4 +137,4 @@ export default function HeroSection({
       </motion.div>
     </section>
   );
-}
+}

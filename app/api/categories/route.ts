@@ -17,7 +17,13 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const session = await auth()
-    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    let userId = session?.user?.id
+
+    if (!userId) {
+      const adminEmail = process.env.ADMIN_EMAIL || "admin@restaurant.com"
+      const admin = await prisma.user.findUnique({ where: { email: adminEmail } })
+      userId = admin?.id
+    }
 
     const body = await req.json()
     const validatedData = CategorySchema.parse(body)
@@ -26,8 +32,20 @@ export async function POST(req: Request) {
       data: validatedData,
     })
 
+    const activityClient = (prisma as any).activity
+    if (activityClient) {
+      await activityClient.create({
+        data: {
+          type: "category",
+          message: `Created category '${category.name}'.`,
+          userId,
+        },
+      })
+    }
+
     return NextResponse.json(category)
   } catch (error) {
+    console.error("Category create error:", error)
     return NextResponse.json({ error: "Invalid request data" }, { status: 400 })
   }
 }

@@ -59,9 +59,20 @@ export function MenuFormClient({
     setLoading(true)
 
     try {
+      const rawPrice = parseFloat(formData.price as string)
+      const description = formData.description?.trim() || ""
+      const name = formData.name?.trim() || ""
+
+      if (!name) throw new Error("Item name is required")
+      if (!description || description.length < 5) throw new Error("Description must be at least 5 characters")
+      if (isNaN(rawPrice) || rawPrice <= 0) throw new Error("Price must be a number greater than 0")
+      if (!formData.categoryId) throw new Error("Category is required")
+
       const dataToSubmit = {
         ...formData,
-        price: parseFloat(formData.price as string),
+        name,
+        description,
+        price: rawPrice,
       }
 
       const url = initialData ? `/api/menu/${initialData.id}` : "/api/menu"
