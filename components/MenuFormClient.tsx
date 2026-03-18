@@ -13,18 +13,30 @@ export function MenuFormClient({
   categories: Category[]
   initialData?: MenuItem | null
 }) {
+  type MenuFormData = {
+    name: string
+    description: string
+    price: string
+    categoryId: string
+    image: string
+    isHot: boolean
+    isAvailable: boolean
+    star: string
+  }
+
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
   
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<MenuFormData>({
     name: initialData?.name || "",
     description: initialData?.description || "",
-    price: initialData?.price || "",
+    price: initialData?.price?.toString() || "",
     categoryId: initialData?.categoryId || (categories.length > 0 ? categories[0].id : ""),
     image: initialData?.image || "",
     isHot: initialData?.isHot ?? false,
     isAvailable: initialData?.isAvailable ?? true,
+    star: initialData?.star?.toString() || "5",
   })
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,13 +71,15 @@ export function MenuFormClient({
     setLoading(true)
 
     try {
-      const rawPrice = parseFloat(formData.price as string)
-      const description = formData.description?.trim() || ""
-      const name = formData.name?.trim() || ""
+      const rawPrice = parseFloat(formData.price)
+      const star = parseInt(formData.star)
+      const description = formData.description.trim() || ""
+      const name = formData.name.trim() || ""
 
       if (!name) throw new Error("Item name is required")
       if (!description || description.length < 5) throw new Error("Description must be at least 5 characters")
       if (isNaN(rawPrice) || rawPrice <= 0) throw new Error("Price must be a number greater than 0")
+      if (isNaN(star) || star < 1 || star > 5) throw new Error("Star rating must be between 1 and 5")
       if (!formData.categoryId) throw new Error("Category is required")
 
       const dataToSubmit = {
@@ -73,6 +87,7 @@ export function MenuFormClient({
         name,
         description,
         price: rawPrice,
+        star,
       }
 
       const url = initialData ? `/api/menu/${initialData.id}` : "/api/menu"
@@ -98,20 +113,29 @@ export function MenuFormClient({
   }
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <div className="mb-6">
-        <button
-          onClick={() => router.back()}
-          className="flex items-center text-gray-300 hover:text-gray-400 cursor-pointer transition-colors"
+    <div
+      className="fixed inset-0 z-[70] overflow-y-auto p-4 bg-black/60 backdrop-blur-sm"
+      onClick={() => router.back()}
+    >
+      <div className="flex justify-center items-start min-h-[100vh] pt-6 pb-8">
+        <div
+          className="relative w-full max-w-4xl"
+          onClick={(e) => e.stopPropagation()}
         >
-          <ArrowLeft size={20} className="mr-2" /> Back to Menu Items
-        </button>
-      </div>
+          <div className="p-4 max-h-[calc(100vh-3rem)] overflow-y-auto bg-background rounded-3xl shadow-xl border border-white/10">
+          <div className="mb-6">
+            <button
+              onClick={() => router.back()}
+              className="flex items-center text-gray-300 hover:text-gray-400 cursor-pointer transition-colors"
+            >
+              <ArrowLeft size={20} className="mr-2" /> Back to Menu Items
+            </button>
+          </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex flex-col items-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-8 w-full">
-          {initialData ? "Edit Menu Item" : "Create New Menu Item"}
-        </h1>
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex flex-col items-center">
+            <h1 className="text-2xl font-bold text-gray-900 mb-8 w-full">
+              {initialData ? "Edit Menu Item" : "Create New Menu Item"}
+            </h1>
 
         <form onSubmit={handleSubmit} className="w-full space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -197,6 +221,29 @@ export function MenuFormClient({
               />
             </div>
 
+            <div className="space-y-2 text-left">
+              <label className="block text-sm font-medium text-gray-700 text-left">Star Rating (1-5)</label>
+              <input
+                type="number"
+                min="1"
+                max="5"
+                required
+                value={formData.star}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value)
+                  if (!isNaN(val)) {
+                    // Clamp between 1 and 5
+                    const clamped = Math.min(5, Math.max(1, val))
+                    setFormData({ ...formData, star: clamped.toString() })
+                  } else {
+                    setFormData({ ...formData, star: "" })
+                  }
+                }}
+                className="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-gray-900 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500 bg-white"
+                placeholder="5"
+              />
+            </div>
+
             <div className="space-y-4 text-left flex flex-col justify-end">
               <label className="relative flex items-center cursor-pointer">
                 <input
@@ -235,5 +282,8 @@ export function MenuFormClient({
         </form>
       </div>
     </div>
+  </div>
+</div>
+</div>
   )
 }

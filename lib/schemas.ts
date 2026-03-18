@@ -12,4 +12,5 @@ export const MenuItemSchema = z.object({
   categoryId: z.string().min(1, "Category is required"),
   isHot: z.boolean().default(false),
   isAvailable: z.boolean().default(true),
+  star: z.coerce.number().int().min(1).max(5).default(5),
 })

@@ -88,11 +88,14 @@ export function MenuItemCard({ item, index = 0, onClick }: MenuCardProps) {
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1 text-accent/60">
-            <Star size={14} fill="currentColor" />
-            <Star size={14} fill="currentColor" />
-            <Star size={14} fill="currentColor" />
-            <Star size={14} fill="currentColor" />
-            <Star size={14} className="opacity-40" />
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star 
+                key={i} 
+                size={14} 
+                fill={i < (item.star || 5) ? "currentColor" : "none"} 
+                className={i < (item.star || 5) ? "" : "opacity-40"} 
+              />
+            ))}
           </div>
           
           <span className={cn(

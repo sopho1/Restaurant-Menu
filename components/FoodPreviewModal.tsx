@@ -84,12 +84,15 @@ export default function FoodPreviewModal({
                 transition={{ delay: 0.2 }}
                 className="max-w-xl"
               >
-                <div className="flex items-center gap-2 mb-6">
-                  <Star size={12} fill="currentColor" className="text-accent" />
-                  <Star size={12} fill="currentColor" className="text-accent" />
-                  <Star size={12} fill="currentColor" className="text-accent" />
-                  <Star size={12} fill="currentColor" className="text-accent" />
-                  <Star size={12} fill="currentColor" className="text-accent" />
+                <div className="flex items-center gap-1 mb-6">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star 
+                      key={i} 
+                      size={12} 
+                      fill={i < (item.star || 5) ? "currentColor" : "none"} 
+                      className={i < (item.star || 5) ? "text-accent" : "text-white/20"} 
+                    />
+                  ))}
                   <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30 ml-2">Signature Dish</span>
                 </div>
 

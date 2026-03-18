@@ -42,6 +42,7 @@ export default async function HomePage() {
       image: item.image,
       isHot: item.isHot,
       isAvailable: item.isAvailable,
+      star: item.star,
     })),
   }))
 

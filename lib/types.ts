@@ -4,7 +4,10 @@ export interface MenuItem {
   description: string;
   price: number;
   image: string;
-  glb: string;
+  glb?: string;
+  star?: number;
+  isHot?: boolean;
+  isAvailable?: boolean;
 }
 
 export interface MenuCategory {

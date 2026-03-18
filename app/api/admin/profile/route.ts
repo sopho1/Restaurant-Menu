@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { hash } from "bcryptjs"
+import { hash, compare } from "bcryptjs"
 import prisma from "@/lib/prisma"
 import { auth } from "@/lib/auth"
 
@@ -30,9 +30,29 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: "User not found" }, { status: 404 })
   }
 
-  const updates: any = {}
-  if (payload.email && payload.email !== user.email) updates.email = payload.email
-  if (payload.password) updates.password = await hash(payload.password, 10)
+  type ProfileUpdate = {
+    email?: string
+    password?: string
+  }
+
+  const updates: ProfileUpdate = {}
+
+  if (payload.password) {
+    if (!payload.currentPassword) {
+      return NextResponse.json({ error: "Current password is required to change password" }, { status: 400 })
+    }
+
+    const passwordsMatch = await compare(payload.currentPassword, user.password)
+    if (!passwordsMatch) {
+      return NextResponse.json({ error: "Current password is incorrect" }, { status: 401 })
+    }
+
+    updates.password = await hash(payload.password, 10)
+  }
+
+  if (payload.email && payload.email !== user.email) {
+    updates.email = payload.email
+  }
 
   if (Object.keys(updates).length === 0) {
     return NextResponse.json({ error: "No update fields" }, { status: 400 })
@@ -40,9 +60,8 @@ export async function PATCH(req: Request) {
 
   const updated = await prisma.user.update({ where: { id: user.id }, data: updates })
 
-  const activityClient = (prisma as any).activity
-  if (activityClient) {
-    await activityClient.create({
+  if (prisma.activity) {
+    await prisma.activity.create({
       data: {
         type: "profile",
         message: `Updated profile settings for ${updated.email}`,
