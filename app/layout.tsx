@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import { Inter, Playfair_Display } from "next/font/google"
 import { Toaster } from "react-hot-toast"
+import { Providers } from "@/components/Providers"
 import "./globals.css"
 
 const inter = Inter({ 
@@ -26,20 +27,21 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable} scroll-smooth`}>
       <body className="bg-background text-foreground selection:bg-accent selection:text-accent-foreground">
-        {children}
-        <Toaster 
-          position="top-center"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: "rgba(255, 255, 255, 0.05)",
-              color: "#fff",
-              backdropFilter: "blur(12px)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              borderRadius: "1rem",
-            }
-          }}
-        />
+        <Providers>
+          {children}
+          <Toaster 
+            position="top-center"
+            toastOptions={{
+              duration: 4000,
+              className: "glass rounded-2xl text-foreground font-semibold px-6 py-4 shadow-2xl border-border",
+              style: {
+                background: "var(--glass-bg)",
+                color: "var(--foreground)",
+                backdropFilter: "blur(var(--glass-blur))",
+              }
+            }}
+          />
+        </Providers>
       </body>
     </html>
   )

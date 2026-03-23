@@ -80,7 +80,7 @@ export function CategoriesClient({ initialCategories }: { initialCategories: Cat
         <h1 className="text-4xl font-bold tracking-tight text-luxury text-gold-gradient mb-2">
           Category Management
         </h1>
-        <p className="text-foreground-muted font-light tracking-wide">
+        <p className="text-muted-foreground font-light tracking-wide">
           Organize your culinary gallery into cohesive collections.
         </p>
       </div>

@@ -94,7 +94,7 @@ export default function HeroSection({
             {restaurantName}
           </h1>
           
-          <p className="text-lg md:text-2xl text-foreground-muted mb-12 max-w-2xl mx-auto font-light tracking-wide px-4">
+          <p className="text-lg md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto font-light tracking-wide px-4">
             {tagline}
           </p>
 
@@ -127,7 +127,7 @@ export default function HeroSection({
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
         onClick={onScrollDown}
       >
-        <span className="text-[10px] uppercase tracking-[0.4em] text-foreground-muted">Discover</span>
+        <span className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground">Discover</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity }}

@@ -40,7 +40,7 @@ export default function MenuCategory({
           
           <div className="w-24 h-1 bg-accent rounded-full mb-8" />
           
-          <p className="text-foreground-muted max-w-2xl text-lg font-light tracking-wide">
+          <p className="text-muted-foreground max-w-2xl text-lg font-light tracking-wide">
             Explore our meticulously crafted {category.name.toLowerCase()}, where tradition meets innovation in every bite.
           </p>
         </motion.div>
@@ -61,4 +61,4 @@ export default function MenuCategory({
       </div>
     </section>
   );
-}
+}

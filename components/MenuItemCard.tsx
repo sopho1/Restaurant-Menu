@@ -82,7 +82,7 @@ export function MenuItemCard({ item, index = 0, onClick }: MenuCardProps) {
           </div>
         </div>
 
-        <p className="text-foreground-muted text-sm md:text-base line-clamp-2 md:line-clamp-3 mb-6 font-light leading-relaxed">
+        <p className="text-muted-foreground text-sm md:text-base line-clamp-2 md:line-clamp-3 mb-6 font-light leading-relaxed">
           {item.description}
         </p>
 

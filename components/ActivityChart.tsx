@@ -84,7 +84,7 @@ export function ActivityChart({ initialData }: ActivityChartProps) {
         </LineChart>
       </ResponsiveContainer>
       {!hasData && (
-        <p className="text-xs text-center text-foreground-muted mt-2">
+        <p className="text-xs text-center text-muted-foreground mt-2">
           No activity yet. Add items or categories to populate the chart in real-time.
         </p>
       )}

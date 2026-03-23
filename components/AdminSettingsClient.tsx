@@ -84,39 +84,39 @@ export function AdminSettingsClient() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-gold-gradient">Admin Settings</h1>
-        <p className="text-foreground-muted mt-2">Adjust control panel credentials and profile settings.</p>
+        <p className="text-muted-foreground mt-2">Adjust control panel credentials and profile settings.</p>
       </div>
 
       {profile ? (
         <form onSubmit={onSave} className="space-y-6 max-w-xl">
           <div>
-            <label className="block mb-2 text-sm font-medium text-white">Email</label>
+            <label className="block mb-2 text-sm font-medium text-foreground">Email</label>
             <input
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white"
+              className="w-full rounded-xl border border-border bg-card px-4 py-3 text-foreground"
               type="email"
             />
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-medium text-white">New password</label>
+            <label className="block mb-2 text-sm font-medium text-foreground">New password</label>
             <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white"
+              className="w-full rounded-xl border border-border bg-card px-4 py-3 text-foreground"
               type="password"
               placeholder="Leave blank to keep current password"
             />
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-medium text-white">Confirm new password</label>
+            <label className="block mb-2 text-sm font-medium text-foreground">Confirm new password</label>
             <input
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white"
+              className="w-full rounded-xl border border-border bg-card px-4 py-3 text-foreground"
               type="password"
               placeholder="Confirm new password"
             />
@@ -131,20 +131,20 @@ export function AdminSettingsClient() {
           </button>
         </form>
       ) : (
-        <div className="rounded-2xl bg-white/5 p-6">Loading profile...</div>
+        <div className="rounded-2xl bg-card border border-border p-6 text-muted-foreground">Loading profile...</div>
       )}
 
       {showCurrentPasswordModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
-          <div className="absolute inset-0 bg-black/80" onClick={() => setShowCurrentPasswordModal(false)} />
-          <div className="relative w-full max-w-md rounded-3xl border border-white/10 bg-[#0b0b0d] p-8 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/40 dark:bg-black/80 backdrop-blur-sm">
+          <div className="absolute inset-0" onClick={() => setShowCurrentPasswordModal(false)} />
+          <div className="relative w-full max-w-md rounded-3xl border border-border bg-background p-8 shadow-2xl">
             <h2 className="text-2xl font-bold text-gold-gradient">Confirm Current Password</h2>
-            <p className="mt-2 text-sm text-foreground-muted">Enter your existing password to authorize the profile update.</p>
+            <p className="mt-2 text-sm text-muted-foreground">Enter your existing password to authorize the profile update.</p>
             <input
               type="password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="mt-4 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white"
+              className="mt-4 w-full rounded-xl border border-border bg-card px-4 py-3 text-foreground"
               placeholder="Current password"
               autoFocus
             />
@@ -152,7 +152,7 @@ export function AdminSettingsClient() {
               <button
                 type="button"
                 onClick={() => setShowCurrentPasswordModal(false)}
-                className="flex-1 rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-white hover:bg-white/10"
+                className="flex-1 rounded-xl border border-border bg-card px-4 py-3 text-foreground hover:bg-accent/5 transition-colors"
               >
                 Cancel
               </button>

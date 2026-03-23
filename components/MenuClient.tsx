@@ -57,7 +57,7 @@ export function MenuClient({
               The Gallery
             </h1>
             <div className="w-24 h-1 bg-accent mx-auto rounded-full mb-8" />
-            <p className="text-foreground-muted max-w-xl mx-auto text-lg font-light tracking-wide">
+            <p className="text-muted-foreground max-w-xl mx-auto text-lg font-light tracking-wide">
               Curated flavors and meticulously crafted masterpieces for the discerning palate.
             </p>
           </motion.div>
@@ -134,7 +134,7 @@ export function MenuClient({
               <UtensilsCrossed size={40} className="text-white/10" />
             </div>
             <h3 className="text-2xl font-bold text-luxury mb-4">No Masterpieces Found</h3>
-            <p className="text-foreground-muted max-w-sm mx-auto font-light">
+            <p className="text-muted-foreground max-w-sm mx-auto font-light">
               Our culinary curators couldn't find any results for "{searchQuery}". Try refining your search or category.
             </p>
           </motion.div>

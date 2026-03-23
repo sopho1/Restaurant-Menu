@@ -86,7 +86,7 @@ export default async function DashboardPage() {
     <div className="space-y-12">
       <div>
         <h1 className="text-4xl font-bold tracking-tight text-luxury text-gold-gradient mb-2">Metrics Overview</h1>
-        <p className="text-foreground-muted font-light tracking-wide">Real-time performance of your culinary gallery.</p>
+        <p className="text-muted-foreground font-light tracking-wide">Real-time performance of your culinary gallery.</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -102,7 +102,7 @@ export default async function DashboardPage() {
               </div>
             </div>
             
-            <p className="text-foreground-muted text-sm font-medium tracking-wide mb-2">{stat.label}</p>
+            <p className="text-muted-foreground text-sm font-medium tracking-wide mb-2">{stat.label}</p>
             <h2 className="text-4xl font-bold tracking-tight text-white">{stat.value}</h2>
           </div>
         ))}
@@ -113,7 +113,7 @@ export default async function DashboardPage() {
           <h3 className="text-xl font-bold text-luxury mb-8">Recent Activity</h3>
           <div className="space-y-4 mb-8">
             {recentActivities.length === 0 ? (
-              <p className="text-sm text-foreground-muted">No activity yet. Start creating and editing items to generate events.</p>
+              <p className="text-sm text-muted-foreground">No activity yet. Start creating and editing items to generate events.</p>
             ) : (
               recentActivities.map((item) => (
                 <div key={item.id} className="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/5 transition-colors border border-white/5">
@@ -122,7 +122,7 @@ export default async function DashboardPage() {
                   </div>
                   <div className="flex-1">
                     <p className="text-sm font-semibold">{item.message}</p>
-                    <p className="text-xs text-foreground-muted">
+                    <p className="text-xs text-muted-foreground">
                       {item.user?.email ?? "Unknown"} • {item.createdAt.toLocaleString()}
                     </p>
                   </div>
@@ -140,7 +140,7 @@ export default async function DashboardPage() {
           <div className="flex items-start justify-between">
             <div>
               <h3 className="text-xl font-bold text-luxury mb-2">Performance Spike</h3>
-              <p className="text-foreground-muted font-light max-w-xs mb-4">
+              <p className="text-muted-foreground font-light max-w-xs mb-4">
                 Recent activity trend for the last 7 days.
               </p>
             </div>
@@ -151,7 +151,7 @@ export default async function DashboardPage() {
           </div>
 
           <div className="mt-16 p-4 rounded-2xl bg-white/5 border border-white/10">
-            <div className="text-sm text-foreground-muted">Total activity last 7d</div>
+            <div className="text-sm text-muted-foreground">Total activity last 7d</div>
             <div className="text-2xl font-bold text-white">{weekActivities.length}</div>
           </div>
         </div>

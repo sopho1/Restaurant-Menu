@@ -92,7 +92,7 @@ export function AdminMenuClient({ initialItems }: { initialItems: ItemWithCatego
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
         <div>
           <h1 className="text-3xl font-bold text-gold-gradient mb-2">Menu Inventory</h1>
-          <p className="text-foreground-muted font-light tracking-wide">
+          <p className="text-muted-foreground font-light tracking-wide">
             Manage your digital culinary showcase.
           </p>
         </div>
@@ -100,13 +100,13 @@ export function AdminMenuClient({ initialItems }: { initialItems: ItemWithCatego
         <div className="flex items-center gap-4 w-full lg:w-auto">
 
           <div className="relative flex-1 lg:w-72">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/40" size={18} />
             <input
               type="text"
               placeholder="Search items..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white/5 border border-white/5 rounded-2xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:border-accent/40 transition-all"
+              className="w-full bg-card border border-border rounded-2xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:border-accent/40 transition-all text-foreground"
             />
           </div>
 
@@ -126,7 +126,7 @@ export function AdminMenuClient({ initialItems }: { initialItems: ItemWithCatego
 
         {filteredItems.map((item) => (
 
-          <div key={item.id} className="glass-morphism rounded-3xl p-6 flex gap-6 group hover:bg-white/5 transition-all">
+          <div key={item.id} className="glass-morphism rounded-3xl p-6 flex gap-6 group hover:bg-accent/5 transition-all border border-border">
 
             <div className="relative w-32 h-32 rounded-2xl overflow-hidden flex-shrink-0">
               {item.image ? (
@@ -137,7 +137,7 @@ export function AdminMenuClient({ initialItems }: { initialItems: ItemWithCatego
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               ) : (
-                <div className="w-full h-full bg-white/5 flex items-center justify-center text-[10px] text-white/20">
+                <div className="w-full h-full bg-card flex items-center justify-center text-[10px] text-muted-foreground/20">
                   No Plate
                 </div>
               )}
@@ -153,11 +153,11 @@ export function AdminMenuClient({ initialItems }: { initialItems: ItemWithCatego
 
               <div className="flex justify-between mb-2">
                 <div>
-                  <h3 className="text-lg font-bold text-white group-hover:text-accent">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-accent">
                     {item.name}
                   </h3>
 
-                  <span className="text-[10px] uppercase tracking-widest text-white/40">
+                  <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60">
                     {item.category.name}
                   </span>
                 </div>
@@ -167,7 +167,7 @@ export function AdminMenuClient({ initialItems }: { initialItems: ItemWithCatego
                 </div>
               </div>
 
-              <p className="text-foreground-muted text-sm line-clamp-1 mb-6">
+              <p className="text-muted-foreground text-sm line-clamp-1 mb-6">
                 {item.description}
               </p>
 
@@ -176,7 +176,7 @@ export function AdminMenuClient({ initialItems }: { initialItems: ItemWithCatego
                 <button
                   onClick={() => toggleStatus(item.id, "isAvailable", item.isAvailable)}
                   className={`flex items-center gap-2 text-xs ${
-                    item.isAvailable ? "text-emerald-400" : "text-white/30"
+                    item.isAvailable ? "text-emerald-500 font-semibold" : "text-muted-foreground/40"
                   }`}
                 >
                   {item.isAvailable ? <CheckCircle size={14}/> : <XCircle size={14}/>}
@@ -187,7 +187,7 @@ export function AdminMenuClient({ initialItems }: { initialItems: ItemWithCatego
 
                   <Link
                     href={`/admin/menu/${item.id}/edit`}
-                    className="p-2.5 rounded-xl bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"
+                    className="p-2.5 rounded-xl bg-card text-muted-foreground/60 hover:bg-accent/10 hover:text-accent border border-border"
                   >
                     <Edit2 size={16}/>
                   </Link>
@@ -218,14 +218,14 @@ export function AdminMenuClient({ initialItems }: { initialItems: ItemWithCatego
         {deleteId && (
 
           <motion.div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-6"
+            className="fixed inset-0 bg-black/40 dark:bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
 
             <motion.div
-              className="glass-morphism rounded-3xl p-10 max-w-md w-full text-center"
+              className="glass-morphism rounded-3xl p-10 max-w-md w-full text-center border border-border shadow-2xl"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -235,11 +235,11 @@ export function AdminMenuClient({ initialItems }: { initialItems: ItemWithCatego
                 <AlertTriangle size={28}/>
               </div>
 
-              <h3 className="text-xl font-bold text-white mb-2">
+              <h3 className="text-xl font-bold text-foreground mb-2">
                 Delete Menu Item
               </h3>
 
-              <p className="text-white/60 text-sm mb-8">
+              <p className="text-muted-foreground text-sm mb-8">
                 Are you sure you want to delete
                 <span className="text-accent font-semibold"> {itemToDelete?.name}</span>?
               </p>
@@ -248,7 +248,7 @@ export function AdminMenuClient({ initialItems }: { initialItems: ItemWithCatego
 
                 <button
                   onClick={() => setDeleteId(null)}
-                  className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20"
+                  className="px-6 py-3 rounded-xl bg-card border border-border hover:bg-accent/5 text-foreground transition-colors"
                 >
                   Cancel
                 </button>
