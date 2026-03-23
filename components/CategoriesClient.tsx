@@ -98,7 +98,7 @@ export function CategoriesClient({ initialCategories }: { initialCategories: Cat
             <form onSubmit={handleCreate} className="space-y-6">
 
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 mb-3">
+                <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 mb-3">
                   Classification Name
                 </label>
 
@@ -107,7 +107,7 @@ export function CategoriesClient({ initialCategories }: { initialCategories: Cat
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-white/5 border border-white/5 rounded-2xl py-3.5 px-5 text-sm focus:outline-none focus:border-accent/40 transition-all text-white"
+                  className="w-full bg-card border border-border rounded-2xl py-3.5 px-5 text-sm focus:outline-none focus:border-accent/40 transition-all text-foreground"
                   placeholder="e.g. Signature Mains"
                 />
               </div>
@@ -134,21 +134,21 @@ export function CategoriesClient({ initialCategories }: { initialCategories: Cat
 
               <div
                 key={category.id}
-                className="glass-morphism rounded-3xl p-6 flex items-center justify-between group hover:bg-white/5 transition-all duration-500"
+                className="glass-morphism rounded-3xl p-6 flex items-center justify-between group hover:bg-card/40 transition-all duration-500"
               >
 
                 <div className="flex items-center gap-5">
 
-                  <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-accent">
+                  <div className="w-12 h-12 rounded-2xl bg-card border border-border flex items-center justify-center text-accent">
                     <Tags size={20} />
                   </div>
 
                   <div>
-                    <h3 className="text-lg font-bold text-white mb-1 group-hover:text-accent transition-colors">
+                    <h3 className="text-lg font-bold text-foreground mb-1 group-hover:text-accent transition-colors">
                       {category.name}
                     </h3>
 
-                    <div className="flex items-center gap-2 text-[10px] font-bold text-white/20 uppercase tracking-widest">
+                    <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground/40 uppercase tracking-widest">
                       <Calendar size={12} />
                       {new Date(category.createdAt).toLocaleDateString()}
                     </div>
@@ -197,11 +197,11 @@ export function CategoriesClient({ initialCategories }: { initialCategories: Cat
                 <AlertTriangle size={28} />
               </div>
 
-              <h3 className="text-xl font-bold text-white mb-2">
+              <h3 className="text-xl font-bold text-foreground mb-2">
                 Delete Category
               </h3>
 
-              <p className="text-white/60 text-sm mb-8">
+              <p className="text-muted-foreground text-sm mb-8">
                 Are you sure you want to delete{" "}
                 <span className="text-accent font-semibold">
                   {categoryToDelete?.name}
@@ -214,14 +214,14 @@ export function CategoriesClient({ initialCategories }: { initialCategories: Cat
 
                 <button
                   onClick={() => setDeleteId(null)}
-                  className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm"
+                  className="px-6 py-3 rounded-xl bg-card border border-border hover:bg-card-hover text-foreground text-sm flex-1 transition-colors"
                 >
                   Cancel
                 </button>
 
                 <button
                   onClick={confirmDelete}
-                  className="px-6 py-3 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-sm font-semibold"
+                  className="px-6 py-3 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-sm font-semibold flex-1 transition-colors"
                 >
                   Delete
                 </button>

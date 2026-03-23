@@ -2,21 +2,21 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
-    --foreground: #000000;
-    --foreground-muted: #6b7280;
+    --background: #ebebee;
+    --foreground: #111111;
+    --foreground-muted: #555555;
     
     --accent: #f59e0b;
     --accent-foreground: #000000;
     
-    --card: rgba(0, 0, 0, 0.03);
-    --card-hover: rgba(0, 0, 0, 0.06);
-    --card-border: rgba(0, 0, 0, 0.08);
-    --card-border-hover: rgba(0, 0, 0, 0.15);
+    --card: rgba(0, 0, 0, 0.04);
+    --card-hover: rgba(0, 0, 0, 0.08);
+    --card-border: rgba(0, 0, 0, 0.12);
+    --card-border-hover: rgba(0, 0, 0, 0.2);
     
-    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-bg: rgba(235, 235, 238, 0.7);
     --glass-border: rgba(0, 0, 0, 0.1);
-    --glass-blur: 20px;
+    --glass-blur: 24px;
     
     --radius-xs: 0.5rem;
     --radius-sm: 0.75rem;

@@ -44,7 +44,7 @@ export default function FoodPreviewModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-white/95 dark:bg-black/95 backdrop-blur-3xl z-[100]"
+            className="fixed inset-0 bg-background/90 backdrop-blur-xl z-[100]"
           />
 
           {/* Luxury Modal Panel */}
@@ -53,10 +53,10 @@ export default function FoodPreviewModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 40 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed inset-4 md:inset-12 lg:inset-20 xl:inset-32 z-[101] glass-morphism rounded-[3rem] overflow-hidden border border-black/10 dark:border-white/10 shadow-[0_0_120px_rgba(0,0,0,0.2)] dark:shadow-[0_0_120px_rgba(0,0,0,0.8)] flex flex-col md:flex-row"
+            className="fixed inset-4 md:inset-12 lg:inset-20 xl:inset-32 z-[101] glass-morphism rounded-[3rem] overflow-hidden border border-border shadow-2xl flex flex-col md:flex-row"
           >
             {/* Visual Experience Side */}
-            <div className="w-full md:w-1/2 h-1/2 md:h-full relative bg-white/60 dark:bg-black/40 border-b md:border-b-0 md:border-r border-black/10 dark:border-white/5">
+            <div className="w-full md:w-1/2 h-1/2 md:h-full relative bg-card/50 border-b md:border-b-0 md:border-r border-border">
               <ThreeDImage src={normalizedImage} alt={item.name} />
               
               {/* Overlay Badges */}
@@ -73,7 +73,7 @@ export default function FoodPreviewModal({
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className="absolute top-8 right-8 w-12 h-12 rounded-full glass border border-black/10 dark:border-white/10 text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white hover:bg-black/10 dark:hover:bg-white/10 hover:scale-110 transition-all duration-300 flex items-center justify-center"
+                className="absolute top-8 right-8 w-12 h-12 rounded-full glass border border-border text-muted-foreground hover:text-foreground hover:bg-accent/10 hover:scale-110 transition-all duration-300 flex items-center justify-center"
               >
                 <X size={20} />
               </button>
@@ -90,10 +90,10 @@ export default function FoodPreviewModal({
                       key={i} 
                       size={12} 
                       fill={i < (item.star || 5) ? "currentColor" : "none"} 
-                      className={i < (item.star || 5) ? "text-accent" : "text-black/20 dark:text-white/20"} 
+                      className={i < (item.star || 5) ? "text-accent" : "text-muted-foreground/30"} 
                     />
                   ))}
-                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/30 dark:text-white/30 ml-2">Signature Dish</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground ml-2">Signature Dish</span>
                 </div>
 
                 <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 text-luxury text-gold-gradient leading-[1.1]">
@@ -106,9 +106,9 @@ export default function FoodPreviewModal({
                   {item.description}
                 </p>
 
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8 pt-10 border-t border-black/10 dark:border-white/5">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8 pt-10 border-t border-border">
                   <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30 dark:text-white/30 mb-2">Price Estimate</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground mb-2">Price Estimate</span>
                     <span className="text-4xl md:text-5xl font-bold text-accent">
                       ETB {item.price}
                     </span>
@@ -116,7 +116,7 @@ export default function FoodPreviewModal({
 
                   <button 
                     onClick={onClose}
-                    className="px-10 py-5 bg-black dark:bg-white text-white dark:text-black rounded-full font-bold uppercase tracking-widest text-xs hover:bg-accent hover:text-accent-foreground transition-all duration-300 shadow-xl"
+                    className="px-10 py-5 bg-foreground text-background rounded-full font-bold uppercase tracking-widest text-xs hover:bg-accent hover:text-accent-foreground transition-all duration-300 shadow-xl"
                   >
                     Close Preview
                   </button>

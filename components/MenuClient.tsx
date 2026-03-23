@@ -76,7 +76,7 @@ export function MenuClient({
               className={`rounded-2xl px-8 py-3.5 text-xs font-bold uppercase tracking-widest transition-all duration-500 whitespace-nowrap ${
                 activeCategory === "All"
                   ? "bg-accent text-accent-foreground shadow-lg shadow-accent/20"
-                  : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white border border-white/5"
+                  : "bg-card text-muted-foreground/60 hover:bg-card-hover hover:text-foreground border border-border"
               }`}
             >
               All Library
@@ -88,7 +88,7 @@ export function MenuClient({
                 className={`rounded-2xl px-8 py-3.5 text-xs font-bold uppercase tracking-widest transition-all duration-500 whitespace-nowrap ${
                   activeCategory === cat.name
                     ? "bg-accent text-accent-foreground shadow-lg shadow-accent/20"
-                    : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white border border-white/5"
+                    : "bg-card text-muted-foreground/60 hover:bg-card-hover hover:text-foreground border border-border"
                 }`}
               >
                 {cat.name}
@@ -98,7 +98,7 @@ export function MenuClient({
 
           {/* Luxury Search */}
           <div className="relative w-full md:w-80 group">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-6 transition-colors duration-300 group-focus-within:text-accent text-white/20">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-6 transition-colors duration-300 group-focus-within:text-accent text-muted-foreground/30">
               <Search className="h-5 w-5" />
             </div>
             <input
@@ -106,7 +106,7 @@ export function MenuClient({
               placeholder="Refine your selection..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="block w-full rounded-2xl bg-white/5 border border-white/5 py-4 pl-14 pr-6 text-white placeholder:text-white/20 focus:outline-none focus:border-accent/40 focus:bg-white/10 transition-all font-light tracking-wide text-sm"
+              className="block w-full rounded-2xl bg-card border border-border py-4 pl-14 pr-6 text-foreground placeholder:text-muted-foreground/30 focus:outline-none focus:border-accent/40 focus:bg-card/40 transition-all font-light tracking-wide text-sm"
             />
           </div>
         </div>
@@ -130,8 +130,8 @@ export function MenuClient({
             animate={{ opacity: 1 }}
             className="flex flex-col items-center justify-center py-32 text-center"
           >
-            <div className="w-24 h-24 rounded-full bg-white/5 flex items-center justify-center mb-8 animate-float">
-              <UtensilsCrossed size={40} className="text-white/10" />
+            <div className="w-24 h-24 rounded-full bg-card border border-border flex items-center justify-center mb-8 animate-float">
+              <UtensilsCrossed size={40} className="text-muted-foreground/20" />
             </div>
             <h3 className="text-2xl font-bold text-luxury mb-4">No Masterpieces Found</h3>
             <p className="text-muted-foreground max-w-sm mx-auto font-light">
@@ -143,15 +143,14 @@ export function MenuClient({
 
       {/* Quick Access Floating UI (Optional premium touch) */}
       <div className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4">
-         <motion.button 
-           whileHover={{ scale: 1.1 }}
-           whileTap={{ scale: 0.9 }}
-           className="w-14 h-14 rounded-full glass border border-white/10 flex items-center justify-center text-accent shadow-2xl"
-         >
-           <Info size={24} />
-         </motion.button>
+          <motion.button 
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="w-14 h-14 rounded-full glass flex items-center justify-center text-accent shadow-2xl border border-border"
+          >
+            <Info size={24} />
+          </motion.button>
       </div>
     </div>
   )
 }
-

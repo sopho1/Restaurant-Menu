@@ -111,7 +111,7 @@ export default function HeroSection({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onStoryClick}
-              className="px-8 py-4 border border-white/20 glass rounded-full font-semibold tracking-widest uppercase text-sm hover:bg-white/10 transition-all duration-300 min-w-[200px]"
+              className="px-8 py-4 border border-border glass rounded-full font-semibold tracking-widest uppercase text-sm hover:bg-accent/10 transition-all duration-300 min-w-[200px] text-foreground"
             >
               Our Story
             </motion.button>

@@ -52,14 +52,14 @@ export function AdminDashboardLayoutClient({
       {/* Mobile Backdrop */}
       {isMobileOpen && (
         <div 
-          className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm z-[50] lg:hidden"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[50] lg:hidden"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside className={cn(
-        "fixed lg:static inset-y-0 left-0 z-[60] bg-white/80 dark:bg-black/40 backdrop-blur-2xl border-r border-border flex flex-col transition-all duration-300 ease-in-out",
+        "fixed lg:static inset-y-0 left-0 z-[60] glass border-r border-border flex flex-col transition-all duration-300 ease-in-out shadow-2xl lg:shadow-none",
         isSidebarOpen ? "w-72" : "w-20",
         isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}>
@@ -214,7 +214,7 @@ export function AdminDashboardLayoutClient({
         </header>
         
         {/* Page Content */}
-        <div className="flex-1 overflow-y-auto px-6 lg:px-10 py-8 lg:py-10 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+        <div className="flex-1 overflow-y-auto px-6 lg:px-10 py-8 lg:py-10 scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
           <div className="max-w-[1600px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
             {children}
           </div>

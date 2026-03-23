@@ -113,10 +113,10 @@ export function AdminQRClient() {
           <div className="space-y-6">
             <h2 className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/50">Select Experience</h2>
             <div className="grid grid-cols-2 gap-4">
-              <button onClick={() => setMenuType("normal")} className={`py-4 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all duration-500 ${menuType === "normal" ? "bg-accent text-accent-foreground shadow-lg shadow-accent/20" : "bg-card text-muted-foreground hover:bg-accent/5 hover:text-foreground border border-border"}`}>
+              <button onClick={() => setMenuType("normal")} className={`py-4 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all duration-500 ${menuType === "normal" ? "bg-accent text-accent-foreground shadow-lg shadow-accent/20" : "bg-card text-muted-foreground hover:bg-card-hover hover:text-foreground border border-border"}`}>
                 Signature
               </button>
-              <button onClick={() => setMenuType("special")} className={`py-4 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all duration-500 ${menuType === "special" ? "bg-accent text-accent-foreground shadow-lg shadow-accent/20" : "bg-card text-muted-foreground hover:bg-accent/5 hover:text-foreground border border-border"}`}>
+              <button onClick={() => setMenuType("special")} className={`py-4 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all duration-500 ${menuType === "special" ? "bg-accent text-accent-foreground shadow-lg shadow-accent/20" : "bg-card text-muted-foreground hover:bg-card-hover hover:text-foreground border border-border"}`}>
                 Exclusive
               </button>
             </div>
@@ -127,7 +127,7 @@ export function AdminQRClient() {
             <input value={tableNumber} onChange={(e) => setTableNumber(e.target.value)} placeholder="e.g. Royal Table 01" className="w-full bg-card border border-border rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-accent/40 transition-all text-foreground placeholder:text-muted-foreground/40" />
           </div>
 
-          <button onClick={handleGenerateClick} disabled={loading} className="w-full py-5 bg-foreground text-background dark:bg-white dark:text-black rounded-2xl font-bold uppercase tracking-[0.2em] text-xs hover:bg-accent hover:text-accent-foreground transition-all duration-500 flex items-center justify-center gap-3 shadow-xl">
+          <button onClick={handleGenerateClick} disabled={loading} className="w-full py-5 bg-foreground text-background rounded-2xl font-bold uppercase tracking-[0.2em] text-xs hover:bg-accent hover:text-accent-foreground transition-all duration-500 flex items-center justify-center gap-3 shadow-xl">
             {loading ? "Forging Link..." : "Generate Gateway"}
             <ArrowRight size={16} />
           </button>
@@ -158,35 +158,65 @@ export function AdminQRClient() {
 
       <AnimatePresence>
         {showPasswordModal && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/40 dark:bg-black/80 backdrop-blur-2xl">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 dark:bg-black/80 backdrop-blur-xl">
             <div className="absolute inset-0" onClick={() => setShowPasswordModal(false)} />
-            <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative w-full max-w-md glass-morphism rounded-[3rem] p-12 border border-border">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="relative w-full max-w-md bg-background rounded-[3rem] p-12 border border-border shadow-2xl"
+            >
               <div className="text-center space-y-6 mb-10">
-                <div className="w-16 h-16 rounded-2xl bg-card flex items-center justify-center mx-auto text-muted-foreground/20">
+                <div className="w-16 h-16 rounded-2xl bg-card border border-border flex items-center justify-center mx-auto text-accent">
                   <ShieldCheck size={32} />
                 </div>
                 <h2 className="text-2xl font-bold text-luxury text-gold-gradient">Authorization Required</h2>
-                <p className="text-sm text-muted-foreground font-light">Enter password to generate QR code</p>
+                <p className="text-sm text-muted-foreground font-light px-4">Enter password to generate QR code</p>
               </div>
 
               <div className="space-y-6">
-                <input type="password" value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && verifyPasswordAndGenerate()} className="w-full bg-card border border-border rounded-2xl py-5 px-6 text-center text-xl tracking-widest focus:outline-none focus:border-accent/40 transition-all text-foreground" placeholder="••••••••" autoFocus />
+                <input 
+                  type="password" 
+                  value={passwordInput} 
+                  onChange={(e) => setPasswordInput(e.target.value)} 
+                  onKeyDown={(e) => e.key === "Enter" && verifyPasswordAndGenerate()} 
+                  className="w-full bg-card border border-border rounded-2xl py-5 px-6 text-center text-xl tracking-widest focus:outline-none focus:border-accent/40 transition-all text-foreground" 
+                  placeholder="••••••••" 
+                  autoFocus 
+                />
                 {authError && <p className="text-center text-rose-500 text-xs font-bold uppercase tracking-widest">{authError}</p>}
-                <button onClick={verifyPasswordAndGenerate} className="w-full py-5 bg-accent text-accent-foreground rounded-2xl font-bold uppercase tracking-widest text-xs hover:shadow-[0_0_30px_rgba(245,158,11,0.3)] transition-all">Verify Access</button>
+                <button 
+                  onClick={verifyPasswordAndGenerate} 
+                  className="w-full py-5 bg-accent text-accent-foreground rounded-2xl font-bold uppercase tracking-widest text-xs hover:shadow-[0_0_30px_rgba(245,158,11,0.3)] transition-all"
+                >
+                  Verify Access
+                </button>
               </div>
             </motion.div>
           </div>
         )}
 
         {showQRModal && qrDataUrl && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/40 dark:bg-black/95 backdrop-blur-3xl">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 dark:bg-black/95 backdrop-blur-xl">
             <div className="absolute inset-0" onClick={() => setShowQRModal(false)} />
-            <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }} className="relative w-full max-w-xl glass-morphism rounded-[3rem] p-12 border border-border text-center">
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="relative w-full max-w-xl bg-background rounded-[3rem] p-12 border border-border text-center shadow-2xl"
+            >
               <h3 className="text-2xl font-bold text-luxury text-gold-gradient mb-4">Link Established</h3>
-              <p className="text-muted-foreground/40 text-[10px] font-bold uppercase tracking-[0.4em] mb-10">{menuType === "normal" ? "Signature Experience" : "Exclusive Experience"} {tableNumber && `• Table ${tableNumber}`}</p>
-              <img src={qrDataUrl} alt="QR Code" className="max-w-full mx-auto mb-6 rounded-2xl" />
+              <p className="text-muted-foreground/40 text-[10px] font-bold uppercase tracking-[0.4em] mb-10">
+                {menuType === "normal" ? "Signature Experience" : "Exclusive Experience"} {tableNumber && `• Table ${tableNumber}`}
+              </p>
+              <img src={qrDataUrl} alt="QR Code" className="max-w-full mx-auto mb-6 rounded-2xl border border-border" />
               <button onClick={() => setShowQRModal(false)} className="absolute top-8 right-8 text-muted-foreground hover:text-foreground">✕</button>
-              <button onClick={downloadQR} className="py-4 px-8 bg-accent text-accent-foreground rounded-2xl font-bold uppercase tracking-widest text-xs hover:shadow-[0_0_30px_rgba(245,158,11,0.3)] transition-all">Download QR</button>
+              <button 
+                onClick={downloadQR} 
+                className="py-4 px-8 bg-accent text-accent-foreground rounded-2xl font-bold uppercase tracking-widest text-xs hover:shadow-[0_0_30px_rgba(245,158,11,0.3)] transition-all"
+              >
+                Download QR
+              </button>
             </motion.div>
           </div>
         )}
