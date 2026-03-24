@@ -1,37 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 export default function TableBadge() {
-  const [tableNumber] = useState<string | null>(() => {
-    if (typeof window === "undefined") return null;
+  const [tableNumber, setTableNumber] = useState<string | null>(null);
 
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const table = params.get("table");
 
     if (table) {
       localStorage.setItem("tableNumber", table);
-      return table;
+      setTableNumber(table);
+    } else {
+      setTableNumber(localStorage.getItem("tableNumber"));
     }
-
-    return localStorage.getItem("tableNumber");
-  });
-
-  // No need for useEffect because state is initialized from URL/localStorage on first load.
+  }, []);
 
   if (!tableNumber) return null;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-6 right-6 z-50 glass rounded-full px-5 py-2.5 border border-[var(--glass-border)]"
+      initial={{ opacity: 0, y: -20, scale: 0.8 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      className="fixed top-8 right-8 z-[100]"
     >
-      <span className="text-sm font-medium text-white tracking-wide">
-        Table {tableNumber}
-      </span>
+      <div className="relative group">
+        <div className="absolute -inset-1 bg-gradient-to-r from-accent to-gold-gradient rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200" />
+        <div className="relative glass px-6 py-2 rounded-full border border-accent/20 flex items-center gap-3 backdrop-blur-2xl shadow-2xl">
+          <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+          <span className="text-xs font-bold text-foreground tracking-[0.2em] uppercase">
+            Reserved Table {tableNumber}
+          </span>
+        </div>
+      </div>
     </motion.div>
   );
 }

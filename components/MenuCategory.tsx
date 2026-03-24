@@ -19,30 +19,44 @@ export default function MenuCategory({
   onItemClick,
 }: MenuCategoryProps) {
   return (
-    <section id={category.id} className="section-padding">
+    <section id={category.id} className="section-padding relative">
       <div className="container-custom">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mb-16 md:mb-24 flex flex-col items-center text-center"
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="mb-16 md:mb-28 flex flex-col items-center text-center relative"
         >
-          {category.icon && (
-            <div className="w-16 h-16 rounded-full glass flex items-center justify-center text-2xl mb-8 animate-float">
-              {category.icon}
-            </div>
-          )}
-          
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 text-luxury text-gold-gradient">
+          {/* Decorative Background Text */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8rem] md:text-[12rem] font-bold text-foreground/[0.03] select-none pointer-events-none uppercase tracking-[0.2em] whitespace-nowrap z-0">
             {category.name}
-          </h2>
-          
-          <div className="w-24 h-1 bg-accent rounded-full mb-8" />
-          
-          <p className="text-muted-foreground max-w-2xl text-lg font-light tracking-wide">
-            Explore our meticulously crafted {category.name.toLowerCase()}, where tradition meets innovation in every bite.
-          </p>
+          </div>
+
+          <div className="relative z-10">
+            <motion.span 
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              className="text-accent font-bold uppercase tracking-[0.5em] text-[10px] mb-6 block"
+            >
+              Exquisite Selection
+            </motion.span>
+            
+            <h2 className="text-5xl md:text-8xl font-bold mb-8 text-luxury text-gold-gradient relative inline-block">
+              {category.name}
+              <motion.div 
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%" }}
+                transition={{ delay: 0.5, duration: 1 }}
+                className="absolute -bottom-2 left-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent" 
+              />
+            </h2>
+            
+            <p className="text-muted-foreground max-w-xl text-lg md:text-xl font-light tracking-wide leading-relaxed mx-auto italic">
+              "A symphony of flavors, curated for the most discerning palates."
+            </p>
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">

@@ -8,16 +8,10 @@ export default async function HomePage() {
     prisma.category.findMany({
       include: {
         menuItems: {
-          where: {
-            isAvailable: true,
-          },
           orderBy: {
             createdAt: "desc",
           },
         },
-      },
-      orderBy: {
-        name: "asc",
       },
     }),
     prisma.menuItem.findMany({
@@ -30,8 +24,22 @@ export default async function HomePage() {
     }),
   ])
 
+  // Sorting function to match user's requested order
+  const getCategoryOrder = (name: string): number => {
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes("starter")) return 1;
+    if (lowerName.includes("main")) return 2;
+    if (lowerName.includes("dessert")) return 3;
+    if (lowerName.includes("drink") || lowerName.includes("beverage")) return 4;
+    return 5; // Everything else at the end
+  };
+
+  const sortedRawCategories = [...categories].sort((a, b) => 
+    getCategoryOrder(a.name) - getCategoryOrder(b.name)
+  );
+
   // Map Prisma data to the structure the client component expects
-  const formattedCategories = categories.map((cat) => ({
+  const formattedCategories = sortedRawCategories.map((cat) => ({
     id: cat.id,
     name: cat.name,
     items: cat.menuItems.map((item) => ({

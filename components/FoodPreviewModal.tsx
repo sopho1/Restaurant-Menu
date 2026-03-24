@@ -30,8 +30,8 @@ export default function FoodPreviewModal({
 
   if (!item) return null;
 
-  const normalizedImage = item.image && (item.image.startsWith("http") || item.image.startsWith("/")) 
-    ? item.image 
+  const normalizedImage = item.image && (item.image.startsWith("http") || item.image.startsWith("/"))
+    ? item.image
     : "/burg.jpg";
 
   return (
@@ -44,7 +44,7 @@ export default function FoodPreviewModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-background/90 backdrop-blur-xl z-[100]"
+            className="fixed inset-0 bg-background/20 backdrop-blur-3xl z-[100]"
           />
 
           {/* Luxury Modal Panel */}
@@ -58,14 +58,6 @@ export default function FoodPreviewModal({
             {/* Visual Experience Side */}
             <div className="w-full md:w-1/2 h-1/2 md:h-full relative bg-card/50 border-b md:border-b-0 md:border-r border-border">
               <ThreeDImage src={normalizedImage} alt={item.name} />
-              
-              {/* Overlay Badges */}
-              <div className="absolute top-8 left-8 flex flex-col gap-3">
-                 <div className="glass px-4 py-2 rounded-2xl flex items-center gap-2">
-                    <Sparkles size={16} className="text-accent" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground">Culinary Art</span>
-                 </div>
-              </div>
             </div>
 
             {/* Content & Details Side */}
@@ -86,11 +78,11 @@ export default function FoodPreviewModal({
               >
                 <div className="flex items-center gap-1 mb-6">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <Star 
-                      key={i} 
-                      size={12} 
-                      fill={i < (item.star || 5) ? "currentColor" : "none"} 
-                      className={i < (item.star || 5) ? "text-accent" : "text-muted-foreground/30"} 
+                    <Star
+                      key={i}
+                      size={12}
+                      fill={i < (item.star || 5) ? "currentColor" : "none"}
+                      className={i < (item.star || 5) ? "text-accent" : "text-muted-foreground/30"}
                     />
                   ))}
                   <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground ml-2">Signature Dish</span>
@@ -114,7 +106,7 @@ export default function FoodPreviewModal({
                     </span>
                   </div>
 
-                  <button 
+                  <button
                     onClick={onClose}
                     className="px-10 py-5 bg-foreground text-background rounded-full font-bold uppercase tracking-widest text-xs hover:bg-accent hover:text-accent-foreground transition-all duration-300 shadow-xl"
                   >

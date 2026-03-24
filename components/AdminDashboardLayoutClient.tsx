@@ -3,15 +3,15 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { 
-  LayoutDashboard, 
-  Menu as MenuIcon, 
-  Tags, 
-  LogOut, 
-  ExternalLink, 
-  Settings, 
-  X, 
-  ChevronLeft, 
+import {
+  LayoutDashboard,
+  Menu as MenuIcon,
+  Tags,
+  LogOut,
+  ExternalLink,
+  Settings,
+  X,
+  ChevronLeft,
   ChevronRight,
   QrCode
 } from "lucide-react"
@@ -51,7 +51,7 @@ export function AdminDashboardLayoutClient({
 
       {/* Mobile Backdrop */}
       {isMobileOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[50] lg:hidden"
           onClick={() => setIsMobileOpen(false)}
         />
@@ -74,7 +74,7 @@ export function AdminDashboardLayoutClient({
               </span>
             )}
           </Link>
-          <button 
+          <button
             onClick={() => setIsMobileOpen(false)}
             className="lg:hidden text-muted-foreground hover:text-foreground"
           >
@@ -86,7 +86,7 @@ export function AdminDashboardLayoutClient({
           {isSidebarOpen && (
             <p className="px-4 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground mb-4 mt-2">Core Management</p>
           )}
-          
+
           {menuItems.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href || pathname.startsWith(item.href + "/")
@@ -96,8 +96,8 @@ export function AdminDashboardLayoutClient({
                 href={item.href}
                 className={cn(
                   "flex items-center gap-3 rounded-xl px-4 py-3.5 transition-all duration-300 group relative",
-                  isActive 
-                    ? "bg-accent/10 text-accent font-semibold" 
+                  isActive
+                    ? "bg-accent/10 text-accent font-semibold"
                     : "text-muted-foreground hover:bg-accent/5 hover:text-foreground",
                   !isSidebarOpen && "justify-center"
                 )}
@@ -130,7 +130,7 @@ export function AdminDashboardLayoutClient({
         </nav>
 
         {/* Sidebar Toggle Button (Desktop Only) */}
-        <button 
+        <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           className="hidden lg:flex absolute -right-3 top-24 w-6 h-6 bg-accent rounded-full items-center justify-center text-accent-foreground shadow-lg border border-border hover:scale-110 transition-transform z-[70]"
         >
@@ -156,7 +156,7 @@ export function AdminDashboardLayoutClient({
         {/* Top Header */}
         <header className="h-20 w-full glass border-b border-border px-6 lg:px-10 flex items-center justify-between flex-shrink-0 z-40">
           <div className="flex items-center gap-4">
-            <button 
+            <button
               onClick={() => setIsMobileOpen(true)}
               className="lg:hidden w-10 h-10 rounded-xl bg-card flex items-center justify-center text-muted-foreground hover:bg-accent/5 hover:text-foreground transition-colors"
             >
@@ -164,19 +164,12 @@ export function AdminDashboardLayoutClient({
             </button>
             <h2 className="hidden sm:block text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground">Workspace</h2>
           </div>
-          
+
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="w-10 h-10 rounded-xl bg-card flex items-center justify-center hover:bg-accent/5 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? '☀️' : '🌙'}
-            </button>
             <Link href="/admin/settings" className="w-10 h-10 rounded-xl bg-card flex items-center justify-center hover:bg-accent/5 transition-colors hidden sm:flex">
               <Settings size={18} />
             </Link>
-            
+
             <div className="flex items-center gap-3 pl-4 border-l border-border">
               <div className="flex flex-col items-end hidden md:flex">
                 <span className="text-xs font-semibold text-foreground truncate max-w-[150px]">{userEmail}</span>
@@ -199,7 +192,7 @@ export function AdminDashboardLayoutClient({
                       <Settings size={16} />
                       Profile Settings
                     </Link>
-                    <button 
+                    <button
                       onClick={() => signOut({ callbackUrl: "/admin/login" })}
                       className="flex w-full items-center gap-3 px-3 py-2 rounded-xl text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 transition-colors"
                     >
@@ -212,7 +205,7 @@ export function AdminDashboardLayoutClient({
             </div>
           </div>
         </header>
-        
+
         {/* Page Content */}
         <div className="flex-1 overflow-y-auto px-6 lg:px-10 py-8 lg:py-10 scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
           <div className="max-w-[1600px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
