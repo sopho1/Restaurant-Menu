@@ -107,14 +107,6 @@ export default function HeroSection({
             >
               Explore Menu
             </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={onStoryClick}
-              className="px-8 py-4 border border-border glass rounded-full font-semibold tracking-widest uppercase text-sm hover:bg-accent/10 transition-all duration-300 min-w-[200px] text-foreground"
-            >
-              Our Story
-            </motion.button>
           </div>
         </motion.div>
       </div>

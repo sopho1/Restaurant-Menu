@@ -135,60 +135,6 @@ export default function LandingPageClient({ restaurant, categories, heroImages }
         onStoryClick={() => handleScrollTo("our-story")}
       />
 
-      <section id="our-story" className="relative z-10 -mt-20 px-4 md:px-8 lg:px-16 mb-20">
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="glass-morphism border border-border rounded-[3rem] p-12 md:p-20 relative overflow-hidden group"
-          >
-            {/* Background Accent */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-accent/5 rounded-full blur-[100px] transition-transform duration-700 group-hover:scale-110" />
-            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-accent/10 rounded-full blur-[100px] transition-transform duration-700 group-hover:scale-110" />
-
-            <div className="relative z-10 flex flex-col md:flex-row items-center gap-12 md:gap-16">
-              <div className="flex-1 text-center md:text-left">
-                <span className="text-accent font-bold uppercase tracking-[0.4em] text-[10px] block mb-6">Our Legacy</span>
-                <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-8 text-luxury leading-tight">
-                  Crafting Moments into <span className="text-gold-gradient">Masterpieces</span>
-                </h2>
-                <p className="text-muted-foreground leading-relaxed text-lg font-light mb-8 max-w-xl">
-                  At Lumière Dining, we believe every meal is a journey. From the flickering of a single candle to the intricate balance of flavors on your plate, we orchestrate an experience that transcends the ordinary.
-                </p>
-                <div className="flex flex-wrap items-center gap-8 justify-center md:justify-start">
-                  <div className="flex flex-col">
-                    <span className="text-2xl font-bold text-foreground">15+</span>
-                    <span className="text-xs uppercase tracking-widest text-muted-foreground">Years experience</span>
-                  </div>
-                  <div className="w-px h-12 bg-border hidden sm:block" />
-                  <div className="flex flex-col">
-                    <span className="text-2xl font-bold text-foreground">24</span>
-                    <span className="text-xs uppercase tracking-widest text-muted-foreground">Master Chefs</span>
-                  </div>
-                  <div className="w-px h-12 bg-border hidden sm:block" />
-                  <div className="flex flex-col">
-                    <span className="text-2xl font-bold text-foreground">5.0</span>
-                    <span className="text-xs uppercase tracking-widest text-muted-foreground">Michelin Dreams</span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-none hidden md:block w-1/3">
-                <div className="aspect-[3/4] rounded-3xl overflow-hidden relative border border-border group-hover:border-accent/30 transition-colors duration-500">
-                  <Image
-                    src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80"
-                    alt="Our Story"
-                    fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                  />
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
       <div className="relative z-10">
         {sortedCategories.map((category) => (
           <MenuCategory
